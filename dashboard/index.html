@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Connections Dashboard</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- LINK TO YOUR DATA FILE -->
+    <script src="instagram_data.js" onerror="console.log('Data file not found, using fallback list.')"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f0f0f;
+            color: #ffffff;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Instagram Gradient Text */
+        .insta-gradient-text {
+            background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Avatar Gradient Border */
+        .avatar-container {
+            position: relative;
+            padding: 3px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 50%;
+        }
+
+        .avatar-inner {
+            background-color: #1a1a1a;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            text-transform: uppercase;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- Header Section -->
+    <div class="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight">
+                <i class="fab fa-instagram insta-gradient-text mr-2"></i> Connections
+            </h1>
+            <p class="text-gray-400 text-sm mt-1">Manage your follower interactions</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-96 group">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                <i class="fas fa-search"></i>
+            </div>
+            <input type="text" id="searchInput" 
+                   class="block w-full p-3 pl-10 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:ring-2 focus:ring-pink-600 focus:border-transparent outline-none transition-all placeholder-gray-500" 
+                   placeholder="Search username...">
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="max-w-7xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card p-4 rounded-xl flex items-center space-x-4">
+            <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-users fa-lg"></i></div>
+            <div>
+                <div class="text-gray-400 text-xs uppercase tracking-wider">Total Listed</div>
+                <div class="text-2xl font-bold" id="totalCount">0</div>
+            </div>
+        </div>
+        <!-- Placeholder stats purely for UI completeness -->
+        <div class="glass-card p-4 rounded-xl flex items-center space-x-4 opacity-70">
+            <div class="p-3 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-check-circle fa-lg"></i></div>
+            <div>
+                <div class="text-gray-400 text-xs uppercase tracking-wider">Status</div>
+                <div class="text-xl font-bold text-green-400">Active</div>
+            </div>
+        </div>
+        <div class="glass-card p-4 rounded-xl flex items-center space-x-4 opacity-70">
+            <div class="p-3 bg-purple-500/20 rounded-lg text-purple-400"><i class="fas fa-eye fa-lg"></i></div>
+            <div>
+                <div class="text-gray-400 text-xs uppercase tracking-wider">View Mode</div>
+                <div class="text-xl font-bold">Grid</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div id="gridContainer" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Cards will be injected here via JS -->
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. THE DATA ---
+        // Fallback list (used if instagram_data.js is not found or empty)
+        const fallbackList = [
+            "0bontika", "____anitaaaaa_____", "___vallagenaa__2441139", "__rifaaaa__45", "__saadbari", 
+            "_abid_mahmud_", "_adi.tta_", "_adiityaaa___", "_anika_uwu_", "_eruwu_", "_jaannatt._", 
+            "_nutella.a.a.a___", "_oxalic_acid", "_sanja.salmin_", "_snehaesthetic_", "_tashfiqul._", 
+            "_theran_khan", "_ziaul_islam_", "abir._._", "abir_sanaul", "abrar_islam_ayon_", 
+            "adel_priyo", "adnan_5haikh", "ahnaffaiyan", "aisharza.samadder", "annur._.hassan", 
+            "apurbo.z", "arashaiman7", "aryres1", "asif_elahi_chowdhury", "atifaziz26", "awan_raivi", 
+            "bracuduburi", "chitoi.pitha", "ctrl.alt.die", "cute__alifa", "darpa", "diaryofaromantica", 
+            "eeem0n", "emaiyuu", "fahimtho", "farhanrodrho", "frr_sami", "fuyad.nafis", "g_m_shakib", 
+            "golam.ishtiak", "golam_yasin_ayon", "iamtasnimulsaad", "jami_vaii", "jayed_bin_farid_", 
+            "jim.taju", "klubhausbd", "kparthib", "m9nitro", "m_r_elafi", "m_s_rupok", "mahir_ahmed_911", 
+            "mahiya_ame", "marziaaaaa__", "mdza_yed19", "mehedihasansoj1b", "metanoiaflower3", 
+            "micky_alfe", "mik.hasan_", "mistigan_0_0", "mohsin.root", "mohuaa_", "morning_star274", 
+            "mun_taha1708", "nabil_riyad__", "nazimfarhan", "nihalistic_", "not._.sea", 
+            "nowrin_islam_rio", "ohh.reza", "r_zaman_raisa", "ra_fa_bear", "rafid_zakaria__", 
+            "rasel_20_", "ratul_hasibul", "refsenpai", "rezuanul_hoque", "ruthless__era__", 
+            "s.shovon3", "sababababooo", "sabyasachiofficial", "sadat_sakif__", "sadmandipro37", 
+            "sadmn.exe", "saif.saifulalam", "sailor_moon__lie8", "samsunnahar.mim", "sanjida__sami", 
+            "santu_loves_chem", "sanzuthebaa", "sauvikxsarkar", "shaan_4747", "shihabbob_the__cathod", 
+            "shoaif.ahmed", "shytnextdoor", "spams__of_not_jarif", "sub4ita.aa", "subconscious_lumoss", 
+            "swornali_sana", "synthiaa.a_", "tanvir_rayim", "taseen3_5", "tasmiah_tabassum__", 
+            "tasnia_tanka", "tasnim_aziz_rimi", "tawxyz_", "the_island_of_soumo", "thearefinahmed", 
+            "themooncbr", "towhid12_", "tsinghua_sigs", "v_m_agarwal_7401", "verge", "wazed_ig", 
+            "wevolverapp", "wired.auv", "wrrrrrrrrryyyyyyyy", "xenomo.o", "zamanbutlearning", 
+            "zamiul_rashid"
+        ];
+
+        // --- 2. RENDER LOGIC ---
+        const grid = document.getElementById('gridContainer');
+        const searchInput = document.getElementById('searchInput');
+        const totalCountEl = document.getElementById('totalCount');
+        
+        // Determine which dataset to use
+        // If instagramData is defined (from the external script), use it.
+        // Otherwise, convert the fallback strings into basic objects.
+        let activeData = [];
+        if (typeof instagramData !== 'undefined' && instagramData.length > 0) {
+            activeData = instagramData;
+        } else {
+            console.warn("Using fallback data. Run the Python script to get images!");
+            activeData = fallbackList.map(name => ({ username: name }));
+        }
+
+        // Helper to get initials from username (e.g. "john_doe" -> "JD")
+        function getInitials(name) {
+            const clean = name.replace(/[._]/g, '');
+            return (clean.substring(0, 2) || "IG").toUpperCase();
+        }
+
+        // Helper to create card HTML
+        function createCard(user) {
+            const username = user.username;
+            const initials = getInitials(username);
+            const profileUrl = `https://www.instagram.com/${username}/`;
+            
+            const followers = user.followers || '-';
+            const following = user.following || '-';
+            const posts = user.posts || '-';
+            const imgUrl = user.image;
+
+            // Logic: If we have an image URL, use it as background. Else use initials.
+            let avatarContent = initials;
+            let avatarStyle = "";
+            
+            if (imgUrl) {
+                avatarContent = ""; // Remove initials if we have a pic
+                avatarStyle = `background-image: url('${imgUrl}');`;
+            }
+            
+            return `
+                <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center relative group">
+                    <div class="absolute top-4 right-4 text-gray-600 group-hover:text-white transition-colors cursor-pointer" title="More options">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+
+                    <!-- Avatar -->
+                    <div class="avatar-container w-20 h-20 mb-4 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <div class="avatar-inner" style="${avatarStyle}">
+                            ${avatarContent}
+                        </div>
+                    </div>
+
+                    <!-- Username -->
+                    <h3 class="text-lg font-bold text-white truncate w-full mb-1">${username}</h3>
+                    <p class="text-xs text-gray-400 mb-4">Instagram User</p>
+
+                    <!-- Stats -->
+                    <div class="flex justify-center space-x-4 w-full mb-6 border-t border-b border-gray-700 py-2">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Posts</span>
+                            <span class="font-semibold text-sm">${posts}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Followers</span>
+                            <span class="font-semibold text-sm">${followers}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Following</span>
+                            <span class="font-semibold text-sm">${following}</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <a href="${profileUrl}" target="_blank" 
+                       class="w-full bg-white text-black font-semibold py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+                        <span>View Profile</span>
+                        <i class="fas fa-external-link-alt text-xs"></i>
+                    </a>
+                </div>
+            `;
+        }
+
+        // Main Render Function
+        function renderGrid(filter = "") {
+            grid.innerHTML = "";
+            let count = 0;
+            
+            activeData.forEach(user => {
+                if (user.username.toLowerCase().includes(filter.toLowerCase())) {
+                    grid.innerHTML += createCard(user);
+                    count++;
+                }
+            });
+            
+            totalCountEl.innerText = count;
+        }
+
+        // --- 3. EVENT LISTENERS ---
+        
+        // Initial Render
+        renderGrid();
+
+        // Search Listener
+        searchInput.addEventListener('input', (e) => {
+            renderGrid(e.target.value);
+        });
+
+    </script>
+</body>
+</html>
