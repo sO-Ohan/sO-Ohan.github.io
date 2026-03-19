@@ -2,506 +2,309 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eid Salami Portal 🌙</title>
+    <!-- FIX: Force desktop width (1100px) on mobile devices to maintain layout integrity -->
+    <meta name="viewport" content="width=1100">
+    <title>Monjurul Hasan Sohan | Robotics & CyberSec</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fonts for Elegant Vibe -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Amita:wght@700&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Canvas Confetti for Fireworks -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
 
     <style>
         body {
-            margin: 0;
+            background-color: #050505;
+            color: #ffffff;
             font-family: 'Outfit', sans-serif;
-            background-color: #020617; /* Deep night sky fallback */
-            background-image: url('image.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            min-height: 100vh;
             overflow-x: hidden;
+            /* Ensure body has minimum width to support the desktop layout on mobile */
+            min-width: 1100px; 
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 25%);
+        }
+        
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ec4899; }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        /* Beautiful Night Sky Gradient Overlay */
-        .eid-sky {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(2, 6, 23, 0.85) 0%, rgba(15, 23, 42, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%);
-            z-index: -2;
-        }
-
-        /* Dynamic Stars Container */
-        #stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite alternate;
-            opacity: 0;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-
-        /* The Popping/Shining Star Animation */
-        @keyframes twinkle {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: var(--max-opacity); transform: scale(1.5); box-shadow: 0 0 15px rgba(255, 255, 255, 1); }
-            100% { opacity: 0.1; transform: scale(0.8); }
-        }
-
-        /* Floating Eid Moon */
-        .eid-moon {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 5rem;
-            filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.4));
-            animation: floatMoon 6s ease-in-out infinite;
-            z-index: -1;
-            opacity: 0.9;
-        }
-
-        @keyframes floatMoon {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -25px); filter: drop-shadow(0 0 40px rgba(251, 191, 36, 0.7)); }
-        }
-
-        /* Elegant Pure Glassmorphism */
-        .elegant-glass {
-            background: rgba(255, 255, 255, 0.05);
+        .glass-strong {
+            background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border-radius: 32px;
-        }
-
-        /* Soft inner glass elements */
-        .inner-glass {
-            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
         }
 
-        /* Soft Click Animation for Buttons */
-        .soft-click {
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            cursor: pointer;
-        }
-        .soft-click:active {
-            transform: scale(0.95);
+        .glass:hover {
+            border-color: rgba(236, 72, 153, 0.3);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
         }
 
-        /* Tab System */
-        .tab-indicator {
-            position: absolute;
-            top: 4px; bottom: 4px; left: 4px;
-            width: calc(33.333% - 8px);
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 9999px;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            z-index: 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
         }
+        .float { animation: float 5s ease-in-out infinite; }
 
-        .tab-bkash-active .tab-indicator { transform: translateX(0%); }
-        .tab-bank-active .tab-indicator { transform: translateX(100%); }
-        .tab-wall-active .tab-indicator { transform: translateX(200%); }
-
-        .glass-tab {
-            color: rgba(255,255,255,0.6);
-            transition: all 0.3s;
-            z-index: 1;
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(34, 211, 238, 0.5);
+            opacity: 0.5;
+            animation: scan 3s linear infinite;
         }
-        .glass-tab.active {
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Text Glows */
-        .arabic-greeting {
-            font-family: 'Noto Kufi Arabic', sans-serif;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .bangla-text {
-            font-family: 'Amita', serif;
-            color: #fef08a;
-            text-shadow: 0px 4px 15px rgba(250, 204, 21, 0.2);
-        }
-
-        /* Custom Scrollbar */
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
-
-        /* Content Fade */
-        .fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes scan {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(200px); opacity: 0; }
         }
     </style>
 </head>
-<body class="p-4 sm:p-8 flex flex-col items-center justify-center relative">
+<body>
+    <div id="root"></div>
 
-    <!-- The Night Sky, Dynamic Stars & Moon -->
-    <div class="eid-sky"></div>
-    <div id="stars-container"></div>
-    <div class="eid-moon">🌙</div>
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { motion, AnimatePresence } = window.Motion;
 
-    <!-- MAIN CONTAINER -->
-    <div class="w-full max-w-md relative z-10 flex flex-col items-center mt-32 mb-8">
+        // ==========================================
+        // ASSETS & CONFIGURATION
+        // ==========================================
         
-        <!-- Islamic Greeting -->
-        <div class="mb-8 text-center w-full px-4">
-            <h2 class="arabic-greeting text-lg sm:text-xl font-bold leading-relaxed mb-2">
-                السلام عليكم ورحمة الله وبركاته ومغفرته ورضوانه
-            </h2>
-            <p class="text-white/60 text-[11px] sm:text-xs font-light tracking-wide italic">
-                Assalamualaikum warahmatullahi wabarakatuh wamaghfiratuh waridhwanuh maksud
-            </p>
-        </div>
+        const Icons = {
+            Github: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>,
+            Linkedin: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>,
+            Facebook: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>,
+            Instagram: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>,
+            MapPin: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            Terminal: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>,
+            Bot: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>,
+            Zap: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+            ExternalLink: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>,
+            Shield: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+            Database: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>,
+            Book: ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        };
 
-        <!-- Main Glass Panel Card -->
-        <div class="elegant-glass w-full p-6 sm:p-8 relative flex flex-col items-center">
-            
-            <!-- Profile Placeholder -->
-            <div class="relative mb-4">
-                <div class="absolute -inset-1 bg-white/10 rounded-full blur-md opacity-50"></div>
-                <div class="relative w-20 h-20 bg-black/20 border border-white/30 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md">
-                    <span class="text-3xl relative z-10">🫴</span>
-                </div>
-            </div>
-            
-            <h1 class="text-2xl font-semibold mb-1 tracking-wide text-white">MD. MONJURUL HASAN</h1>
-            <p class="text-white/50 text-xs mb-8 font-light tracking-widest uppercase">
-                Accepting Eid Salami
-            </p>
+        // ==========================================
+        // SUB-COMPONENTS
+        // ==========================================
 
-            <!-- 3 Soft Toggle Buttons -->
-            <div id="tab-container" class="tab-bkash-active relative flex w-full bg-black/20 rounded-full p-1.5 mb-8 border border-white/10 shadow-inner">
-                <div class="tab-indicator"></div>
-                <button onclick="switchTab('bkash')" id="btn-bkash" class="glass-tab active flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-2 soft-click">
-                    <span class="relative z-10">bKash</span>
-                </button>
-                <button onclick="switchTab('bank')" id="btn-bank" class="glass-tab flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-2 soft-click">
-                    <span class="relative z-10">Bank</span>
-                </button>
-                <button onclick="switchTab('wall')" id="btn-wall" class="glass-tab flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-2 soft-click">
-                    <span class="relative z-10">Wall</span>
-                </button>
-            </div>
-
-            <!-- TAB 1: bKash -->
-            <div id="tab-bkash" class="w-full flex flex-col items-center fade-in">
-                <div class="w-full inner-glass p-6 text-center shadow-lg relative overflow-hidden">
-                    <p class="text-[10px] text-white/50 mb-4 uppercase tracking-widest font-medium">Scan to Send Salami</p>
-                    
-                    <div class="bg-white p-3 rounded-2xl inline-block mb-4 shadow-xl">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=bKash:01780389565&color=e2136e" alt="bKash QR" class="w-36 h-36 rounded-xl">
+        const Nav = () => (
+            <motion.nav 
+                initial={{ y: -100 }}
+                animate={{ y: 0 }}
+                className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center glass m-4 rounded-2xl border border-white/10"
+            >
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-pink-500 to-violet-500 flex items-center justify-center font-bold text-white font-mono">
+                        M
                     </div>
-                    
-                    <div class="text-2xl font-semibold tracking-widest mb-4 text-white">01780389565</div>
-                    
-                    <button onclick="copyText('01780389565', 'bKash Number Copied!')" class="soft-click w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2">
-                        Copy bKash Number
-                    </button>
+                    <span className="font-bold text-lg tracking-tight hidden sm:block text-white">
+                        MONJURUL<span className="text-pink-500">.DEV</span>
+                    </span>
                 </div>
-            </div>
+                
+                <div className="flex gap-6 items-center">
+                     {[
+                        { icon: Icons.Github, href: "https://github.com/Monjurul-Hasan-Sohan" },
+                        { icon: Icons.Facebook, href: "https://www.facebook.com/i.who.am.0/" },
+                        { icon: Icons.Linkedin, href: "https://www.linkedin.com/in/monjurul-hasan-bhuiyan/" },
+                        { icon: Icons.Instagram, href: "https://www.instagram.com/s0.0han/" },
+                    ].map((item, i) => (
+                        <motion.a 
+                            key={i}
+                            href={item.href}
+                            target="_blank"
+                            whileHover={{ scale: 1.2, y: -2, color: "#ec4899" }}
+                            whileTap={{ scale: 0.9 }}
+                            className="text-gray-400 transition-colors"
+                        >
+                            <item.icon size={22} />
+                        </motion.a>
+                    ))}
+                    <motion.a
+                        href="mailto:monjurulhasanbd71@gmail.com"
+                        whileHover={{ scale: 1.05 }}
+                        className="hidden md:block px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-medium border border-white/10 backdrop-blur-md"
+                    >
+                        Hire Me
+                    </motion.a>
+                </div>
+            </motion.nav>
+        );
 
-            <!-- TAB 2: Bank -->
-            <div id="tab-bank" class="w-full flex flex-col items-center hidden">
-                <div class="w-full inner-glass p-6 text-left shadow-lg relative overflow-hidden">
-                    
-                    <div class="space-y-4 relative z-10">
-                        <!-- Bank Info -->
-                        <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center border border-white/10">🏦</div>
-                            <div>
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-0.5">Bank Name</p>
-                                <p class="font-medium text-white/90 text-sm">City Bank</p>
-                            </div>
+        const CuteDrone = ({ delay = 0, x = 0, y = 0, scale = 1 }) => (
+            <motion.div
+                animate={{ 
+                    y: [y, y - 20, y],
+                    rotate: [0, 5, -5, 0]
+                }}
+                transition={{ 
+                    duration: 4, 
+                    ease: "easeInOut", 
+                    repeat: Infinity,
+                    delay: delay 
+                }}
+                className="absolute z-10 pointer-events-none"
+                style={{ right: `${x}%`, top: `${y}%`, scale }}
+            >
+                <div className="relative w-24 h-24">
+                    <div className="absolute inset-0 m-auto w-12 h-12 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center z-10">
+                        <div className="w-8 h-6 bg-black rounded-full overflow-hidden relative">
+                            <div className="absolute top-1 left-1 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                            <div className="absolute top-1 right-1 w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
                         </div>
+                    </div>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 0.2, repeat: Infinity, ease: "linear" }} className="absolute -top-2 -left-2 w-10 h-1 bg-gray-500 rounded-full opacity-50"></motion.div>
+                    <motion.div animate={{ rotate: -360 }} transition={{ duration: 0.2, repeat: Infinity, ease: "linear" }} className="absolute -top-2 -right-2 w-10 h-1 bg-gray-500 rounded-full opacity-50"></motion.div>
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 0.2, repeat: Infinity, ease: "linear" }} className="absolute -bottom-2 -left-2 w-10 h-1 bg-gray-500 rounded-full opacity-50"></motion.div>
+                    <motion.div animate={{ rotate: -360 }} transition={{ duration: 0.2, repeat: Infinity, ease: "linear" }} className="absolute -bottom-2 -right-2 w-10 h-1 bg-gray-500 rounded-full opacity-50"></motion.div>
+                </div>
+            </motion.div>
+        );
 
-                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                            <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Account Name</p>
-                            <p class="font-medium text-white/90 text-sm">MD. MONJURUL HASAN</p>
+        const Hero = () => (
+            <section className="min-h-screen flex flex-col justify-center items-center relative pt-20 overflow-hidden px-4">
+                <CuteDrone x={10} y={20} scale={0.8} />
+                <CuteDrone x={80} y={30} scale={0.6} delay={2} />
+                
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+                    <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[120px] animate-pulse"></div>
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-pink-600/20 rounded-full blur-[120px] animate-pulse" style={{animationDelay: '2s'}}></div>
+                </div>
+
+                <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+                    <motion.div 
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center lg:text-left"
+                    >
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 font-mono text-sm mb-6 backdrop-blur-md">
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                            </span>
+                            ONLINE & READY TO DEPLOY
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Branch</p>
-                                <p class="font-medium text-white/90 text-sm truncate">Gulshan Ave</p>
+                        <h1 className="text-6xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter">
+                            BONJOUR, <br/>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 animate-gradient-x">FROM MONJUR</span>
+                        </h1>
+                        
+                        <p className="text-xl text-gray-400 mb-8 font-light max-w-lg mx-auto lg:mx-0">
+                            Robotics Engineer • Cyber Security • IoT Specialist<br/>
+                            <span className="text-pink-400 font-mono text-sm">// Turning caffeine into autonomous machines.</span>
+                        </p>
+                        
+                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            <motion.a 
+                                href="#projects"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-8 py-4 rounded-xl bg-white text-black font-bold flex items-center gap-2 hover:bg-gray-200 transition-colors"
+                            >
+                                <Icons.Zap size={18} className="fill-current" />
+                                SEE MY BOTS
+                            </motion.a>
+                            <motion.a 
+                                href="#contact"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-8 py-4 rounded-xl glass text-white font-bold border border-white/20 hover:bg-white/10 transition-colors"
+                            >
+                                CONTACT ME
+                            </motion.a>
+                        </div>
+                    </motion.div>
+
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="relative h-[500px] flex justify-center items-center"
+                    >
+                        <div className="relative w-80 h-80 float">
+                            <div className="absolute inset-0 border-2 border-dashed border-cyan-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                            <div className="absolute inset-4 border border-pink-500/20 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-48 h-32 bg-gray-900 rounded-3xl border border-gray-700 relative overflow-hidden shadow-[0_0_50px_rgba(99,102,241,0.3)]">
+                                    <div className="absolute inset-2 bg-black rounded-2xl flex items-center justify-center gap-4 overflow-hidden">
+                                         <div className="scanline absolute top-0"></div>
+                                         <motion.div animate={{ height: [12, 2, 12, 12, 12] }} transition={{ repeat: Infinity, duration: 4 }} className="w-8 h-12 bg-gradient-to-t from-pink-500 to-violet-500 rounded-full shadow-[0_0_15px_#ec4899]"></motion.div>
+                                         <motion.div animate={{ height: [12, 2, 12, 12, 12] }} transition={{ repeat: Infinity, duration: 4, delay: 0.1 }} className="w-8 h-12 bg-gradient-to-t from-pink-500 to-violet-500 rounded-full shadow-[0_0_15px_#ec4899]"></motion.div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Type</p>
-                                <p class="font-medium text-white/90 text-sm truncate">Gen. Savings</p>
-                            </div>
+                            <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute -right-4 top-20 bg-black/80 backdrop-blur border border-cyan-500/50 p-3 rounded-lg text-xs font-mono text-cyan-400">> SYSTEM: 98%</motion.div>
+                            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -left-4 bottom-20 bg-black/80 backdrop-blur border border-pink-500/50 p-3 rounded-lg text-xs font-mono text-pink-400">> MODE: CUTE</motion.div>
                         </div>
-
-                        <!-- AC Number -->
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/10 text-center mt-2 shadow-inner">
-                            <p class="text-[10px] text-white/50 uppercase tracking-widest mb-1">Account Number</p>
-                            <p class="text-xl font-bold tracking-widest text-white">2304320778001</p>
-                        </div>
-                    </div>
-
-                    <button onclick="copyText('2304320778001', 'Bank Account Copied!')" class="soft-click mt-5 w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2">
-                        Copy Account Number
-                    </button>
+                    </motion.div>
                 </div>
-            </div>
+            </section>
+        );
 
-            <!-- TAB 3: JSON Wall -->
-            <div id="tab-wall" class="w-full flex flex-col items-center hidden">
-                <div class="w-full inner-glass p-5 shadow-lg relative overflow-hidden h-[420px] flex flex-col">
-                    
-                    <div class="text-center mb-4 relative z-10 border-b border-white/10 pb-3">
-                        <h3 class="font-medium text-lg text-white/90 tracking-wide">Wall of Generosity 🏆</h3>
-                        <p class="text-[10px] text-white/40 uppercase mt-1">Those who made my Eid special</p>
-                    </div>
-                    
-                    <!-- Wall List -->
-                    <div id="donors-list" class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-3 relative z-10">
-                        <div class="flex justify-center items-center h-full">
-                            <p class="text-white/40 text-sm animate-pulse">Checking for Salami...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Changing Silly Text -->
-        <div class="mt-8 mb-2 w-full text-center h-16 flex flex-col items-center justify-center">
-            <h2 id="silly-text" class="bangla-text text-xl sm:text-2xl transition-all duration-500 opacity-100 font-medium">
-                ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙
-            </h2>
-        </div>
-    </div>
-
-    <!-- Hidden input -->
-    <input type="text" id="hidden-copy-area" class="absolute -left-[9999px] opacity-0" />
-
-    <!-- Soft Pop Toast -->
-    <div id="toast" class="fixed bottom-10 bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium px-6 py-3 rounded-full shadow-2xl text-sm tracking-widest opacity-0 transform translate-y-5 transition-all duration-300 z-50 pointer-events-none">
-        Copied!
-    </div>
-
-    <script>
-        // --- Dynamic Popping/Shining Stars ---
-        function createStars() {
-            const container = document.getElementById('stars-container');
-            const starCount = 120; // Lots of stars for a rich night sky
-
-            for (let i = 0; i < starCount; i++) {
-                let star = document.createElement('div');
-                star.className = 'star';
-                
-                // Randomize position, size, opacity, and popping speed
-                let xy = [Math.random() * 100, Math.random() * 100];
-                let size = Math.random() * 2 + 1; // 1px to 3px
-                let duration = Math.random() * 3 + 2; // 2s to 5s animation
-                let maxOpacity = Math.random() * 0.6 + 0.4; // 0.4 to 1.0
-
-                star.style.left = xy[0] + '%';
-                star.style.top = xy[1] + '%';
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.setProperty('--duration', duration + 's');
-                star.style.setProperty('--max-opacity', maxOpacity);
-                star.style.animationDelay = (Math.random() * 5) + 's';
-
-                container.appendChild(star);
-            }
-        }
-        createStars();
-
-        // --- Tab Logic ---
-        function switchTab(tab) {
-            const tabs = ['bkash', 'bank', 'wall'];
-            const container = document.getElementById('tab-container');
-            
-            // Move Background indicator smoothly
-            container.className = `tab-${tab}-active relative flex w-full bg-black/20 rounded-full p-1.5 mb-8 border border-white/10 shadow-inner`;
-
-            tabs.forEach((t) => {
-                const btn = document.getElementById(`btn-${t}`);
-                const content = document.getElementById(`tab-${t}`);
-                
-                if (t === tab) {
-                    btn.classList.add('active');
-                    content.classList.remove('hidden');
-                    // Retrigger fade animation
-                    content.classList.remove('fade-in');
-                    void content.offsetWidth; 
-                    content.classList.add('fade-in');
-                } else {
-                    btn.classList.remove('active');
-                    content.classList.add('hidden');
+        const Education = () => {
+            const courses = [
+                {
+                    uni: "BRAC University",
+                    status: "Current (4th Sem)",
+                    desc: "B.Sc. in Computer Science & Engineering",
+                    subjects: [
+                        { code: "CSE 110", name: "Programming Language I" },
+                        { code: "CSE 111", name: "Programming Language II" },
+                        { code: "CSE 230", name: "Discrete Mathematics" },
+                        { code: "MAT 110", name: "Differential Calculus" },
+                        { code: "MAT 120", name: "Integral Calculus" },
+                        { code: "PHY 111", name: "Principles of Physics I" },
+                        { code: "ENG 101", name: "English Fundamentals" },
+                        { code: "ENG 102", name: "English Composition" },
+                        { code: "HUM 103", name: "Ethics & Culture" },
+                        { code: "EMB 101", name: "Emergence of Bangladesh" },
+                        { code: "BAN 103", name: "Bangla Lang. & Lit." }
+                    ]
+                },
+                {
+                    uni: "North South University",
+                    status: "Transferred",
+                    desc: "Completed 3 Semesters",
+                    subjects: [
+                        { code: "MAT 116", name: "Pre-Calculus" },
+                        { code: "EEE 154", name: "Engineering Drawing" },
+                        { code: "EEE 141", name: "Electrical Circuits I" },
+                        { code: "ENG 102", name: "Intro to Composition" }
+                    ]
                 }
-            });
+            ];
 
-            if (tab === 'wall') loadDonors();
-        }
-
-        // --- Copy & Trigger Fireworks ---
-        let toastTimeout;
-        function copyText(text, message) {
-            const inputArea = document.getElementById('hidden-copy-area');
-            inputArea.value = text;
-            inputArea.select();
-            document.execCommand('copy');
-            
-            // Show Toast
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateY(0)';
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { 
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(5px)';
-            }, 2500);
-
-            // Trigger Spectacular Fireworks!
-            fireworksShow();
-        }
-
-        // --- Spectacular Fireworks Logic ---
-        function fireworksShow() {
-            var duration = 3 * 1000; // 3 seconds of fireworks
-            var animationEnd = Date.now() + duration;
-            // Soft gold, silver, and warm white fireworks
-            var colors = ['#fbbf24', '#fef3c7', '#ffffff', '#fcd34d']; 
-
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                var particleCount = 50 * (timeLeft / duration);
-                
-                // Shoot from random places across the top width of the screen
-                confetti({
-                    particleCount, 
-                    startVelocity: 30, 
-                    spread: 360, 
-                    ticks: 60, 
-                    zIndex: 100,
-                    origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 },
-                    colors: colors
-                });
-            }, 250);
-        }
-// --- JSON Fetching for Wall from local /image directory ---
-        async function loadDonors() {
-            const container = document.getElementById('donors-list');
-            try {
-                const response = await fetch('salami_data.json');
-                if (!response.ok) throw new Error('Data not found');
-                
-                const data = await response.json();
-                
-                if (data.length === 0) {
-                    container.innerHTML = `<p class="text-center text-white/40 text-sm mt-10">No Salami received yet...</p>`;
-                    return;
-                }
-
-                let html = '';
-                data.forEach((donor, index) => {
-                    const crown = index === 0 ? '<span class="absolute -top-2 -left-2 text-xl drop-shadow-md">👑</span>' : '';
-                    
-                    let pic = donor.profilePicture;
-                    // Auto-generated fallback avatar
-                    let fallbackPic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff&bold=true`;
-                    let finalSrc = fallbackPic;
-
-                    // If a filename is provided in JSON, point to the image/ folder
-                    if (pic && !pic.includes('facebook.com') && !pic.includes('fb.com')) {
-                        if (pic.startsWith('http')) {
-                            finalSrc = pic; // Use full URL if provided
-                        } else {
-                            finalSrc = `image/${pic}`; // Look in image/ folder
-                        }
-                    }
-
-                    html += `
-                    <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors relative soft-click">
-                        ${crown}
-                        <!-- Uses onerror to gracefully load initials if the image file is missing -->
-                        <img src="${finalSrc}" onerror="this.onerror=null; this.src='${fallbackPic}';" class="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md bg-white/10">
-                        <div class="flex-1 min-w-0">
-                            <h4 class="font-medium text-white/90 text-sm truncate">${donor.name}</h4>
-                            <p class="text-[10px] text-white/50 italic truncate mt-0.5">"${donor.comment}"</p>
-                        </div>
-                    </div>`;
-                });
-                container.innerHTML = html;
-
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="text-center p-4 border border-dashed border-white/20 rounded-xl mt-4">
-                        <p class="text-white/50 text-xs">Please create salami_data.json in your folder.</p>
-                    </div>`;
-            }
-        }
-
-        // --- Rotating Silly Bangla Text ---
-        const sillyLines = [
-            "ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙",
-            "সালামি ছাড়া ঈদ? এ তো ভাবাই যায় না! 🥺",
-            "বিকাশের মেসেজ টোন শোনার অপেক্ষায় আমার কান... 🔔",
-            "সালামি দিন, সওয়াব নিন! (অফার সীমিত) 🏃‍♂️",
-            "বড়দের দোয়া আর সালামি—দুটোই দরকার! 🤲",
-            "অ্যামাউন্ট ম্যাটার না, ভালোবাসাটাই আসল! 🤫"
-        ];
-        
-        let currentLine = 0;
-        const textElement = document.getElementById('silly-text');
-
-        setInterval(() => {
-            textElement.style.opacity = '0';
-            textElement.style.transform = 'translateY(5px)';
-            
-            setTimeout(() => {
-                currentLine = (currentLine + 1) % sillyLines.length;
-                textElement.innerText = sillyLines[currentLine];
-                
-                textElement.style.opacity = '1';
-                textElement.style.transform = 'translateY(0)';
-            }, 500); 
-        }, 4000); 
-    </script>
-</body>
-</html>
-        
+            return (
+                <section classNam
