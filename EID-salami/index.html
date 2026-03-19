@@ -34,7 +34,7 @@
         .eid-sky {
             position: fixed;
             inset: 0;
-            background: linear-gradient(180deg, rgba(2, 6, 23, 0.95) 0%, rgba(15, 23, 42, 0.7) 40%, rgba(0, 0, 0, 0.8) 100%);
+            background: linear-gradient(180deg, rgba(2, 6, 23, 0.85) 0%, rgba(15, 23, 42, 0.7) 50%, rgba(0, 0, 0, 0.9) 100%);
             z-index: -2;
         }
 
@@ -44,7 +44,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 60%;
+            height: 100%;
             z-index: -1;
             pointer-events: none;
         }
@@ -55,47 +55,59 @@
             border-radius: 50%;
             animation: twinkle var(--duration) ease-in-out infinite alternate;
             opacity: 0;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
+        /* The Popping/Shining Star Animation */
         @keyframes twinkle {
-            0% { opacity: 0.1; transform: scale(0.8); box-shadow: 0 0 2px rgba(255,255,255,0.1); }
-            100% { opacity: var(--max-opacity); transform: scale(1.2); box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: var(--max-opacity); transform: scale(1.5); box-shadow: 0 0 15px rgba(255, 255, 255, 1); }
+            100% { opacity: 0.1; transform: scale(0.8); }
         }
 
         /* Floating Eid Moon */
         .eid-moon {
             position: absolute;
-            top: 5%;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 5rem;
-            filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.6));
-            animation: floatMoon 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.4));
+            animation: floatMoon 6s ease-in-out infinite;
             z-index: -1;
+            opacity: 0.9;
         }
 
         @keyframes floatMoon {
             0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, -20px); }
+            50% { transform: translate(-50%, -25px); filter: drop-shadow(0 0 40px rgba(251, 191, 36, 0.7)); }
         }
 
-        /* Elegant Glassmorphism */
+        /* Elegant Pure Glassmorphism */
         .elegant-glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border-radius: 32px;
+        }
+
+        /* Soft inner glass elements */
+        .inner-glass {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
         }
 
         /* Soft Click Animation for Buttons */
         .soft-click {
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
         }
         .soft-click:active {
-            transform: scale(0.94);
+            transform: scale(0.95);
         }
 
         /* Tab System */
@@ -103,7 +115,7 @@
             position: absolute;
             top: 4px; bottom: 4px; left: 4px;
             width: calc(33.333% - 8px);
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 9999px;
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             z-index: 0;
@@ -115,55 +127,52 @@
         .tab-wall-active .tab-indicator { transform: translateX(200%); }
 
         .glass-tab {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.6);
             transition: all 0.3s;
             z-index: 1;
         }
         .glass-tab.active {
             color: white;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        /* Arabic Greeting */
+        /* Text Glows */
         .arabic-greeting {
             font-family: 'Noto Kufi Arabic', sans-serif;
-            color: #fbbf24;
-            text-shadow: 0 2px 15px rgba(251, 191, 36, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
         }
 
-        /* Bangla Glow */
         .bangla-text {
             font-family: 'Amita', serif;
-            color: #fde68a;
-            text-shadow: 0px 4px 15px rgba(251, 191, 36, 0.3);
+            color: #fef08a;
+            text-shadow: 0px 4px 15px rgba(250, 204, 21, 0.2);
         }
 
         /* Custom Scrollbar */
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.5); border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
 
         /* Content Fade */
         .fade-in {
             animation: fadeIn 0.4s ease-out forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body class="p-4 sm:p-8 flex flex-col items-center justify-center relative">
 
-    <!-- The Night Sky & Dynamic Stars -->
+    <!-- The Night Sky, Dynamic Stars & Moon -->
     <div class="eid-sky"></div>
     <div id="stars-container"></div>
-    
-    <!-- The Floating Eid Moon -->
     <div class="eid-moon">🌙</div>
 
     <!-- MAIN CONTAINER -->
-    <div class="w-full max-w-md relative z-10 flex flex-col items-center mt-24 mb-8">
+    <div class="w-full max-w-md relative z-10 flex flex-col items-center mt-32 mb-8">
         
         <!-- Islamic Greeting -->
         <div class="mb-8 text-center w-full px-4">
@@ -175,24 +184,24 @@
             </p>
         </div>
 
-        <!-- Glass Panel Card -->
+        <!-- Main Glass Panel Card -->
         <div class="elegant-glass w-full p-6 sm:p-8 relative flex flex-col items-center">
             
-            <!-- Profile Picture Placeholder -->
-            <div class="relative mb-4 group">
-                <div class="absolute -inset-1 bg-yellow-500/20 rounded-full blur-md opacity-50"></div>
-                <div class="relative w-20 h-20 bg-black/40 border border-white/20 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md">
+            <!-- Profile Placeholder -->
+            <div class="relative mb-4">
+                <div class="absolute -inset-1 bg-white/10 rounded-full blur-md opacity-50"></div>
+                <div class="relative w-20 h-20 bg-black/20 border border-white/30 rounded-full flex items-center justify-center shadow-xl backdrop-blur-md">
                     <span class="text-3xl relative z-10">🫴</span>
                 </div>
             </div>
             
-            <h1 class="text-2xl font-semibold mb-1 tracking-tight text-white/90">MD. MONJURUL HASAN</h1>
-            <p class="text-yellow-400/80 text-xs mb-8 font-light tracking-widest uppercase">
+            <h1 class="text-2xl font-semibold mb-1 tracking-wide text-white">MD. MONJURUL HASAN</h1>
+            <p class="text-white/50 text-xs mb-8 font-light tracking-widest uppercase">
                 Accepting Eid Salami
             </p>
 
-            <!-- 3 Modern Toggle Buttons -->
-            <div id="tab-container" class="tab-bkash-active relative flex w-full bg-black/40 rounded-full p-1.5 mb-8 border border-white/5 shadow-inner">
+            <!-- 3 Soft Toggle Buttons -->
+            <div id="tab-container" class="tab-bkash-active relative flex w-full bg-black/20 rounded-full p-1.5 mb-8 border border-white/10 shadow-inner">
                 <div class="tab-indicator"></div>
                 <button onclick="switchTab('bkash')" id="btn-bkash" class="glass-tab active flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-2 soft-click">
                     <span class="relative z-10">bKash</span>
@@ -207,16 +216,16 @@
 
             <!-- TAB 1: bKash -->
             <div id="tab-bkash" class="w-full flex flex-col items-center fade-in">
-                <div class="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden backdrop-blur-md">
+                <div class="w-full inner-glass p-6 text-center shadow-lg relative overflow-hidden">
                     <p class="text-[10px] text-white/50 mb-4 uppercase tracking-widest font-medium">Scan to Send Salami</p>
                     
                     <div class="bg-white p-3 rounded-2xl inline-block mb-4 shadow-xl">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=bKash:01780389565&color=e2136e" alt="bKash QR" class="w-36 h-36 rounded-xl">
                     </div>
                     
-                    <div class="text-2xl font-bold tracking-widest mb-4 text-white">01780389565</div>
+                    <div class="text-2xl font-semibold tracking-widest mb-4 text-white">01780389565</div>
                     
-                    <button onclick="copyText('01780389565', 'bKash Number Copied!')" class="soft-click w-full bg-pink-600/90 hover:bg-pink-500 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2 transition-colors">
+                    <button onclick="copyText('01780389565', 'bKash Number Copied!')" class="soft-click w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2">
                         Copy bKash Number
                     </button>
                 </div>
@@ -224,11 +233,11 @@
 
             <!-- TAB 2: Bank -->
             <div id="tab-bank" class="w-full flex flex-col items-center hidden">
-                <div class="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-left shadow-lg relative overflow-hidden backdrop-blur-md">
+                <div class="w-full inner-glass p-6 text-left shadow-lg relative overflow-hidden">
                     
                     <div class="space-y-4 relative z-10">
                         <!-- Bank Info -->
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/5 flex items-center gap-3">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex items-center gap-3">
                             <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center border border-white/10">🏦</div>
                             <div>
                                 <p class="text-[10px] text-white/40 uppercase tracking-widest mb-0.5">Bank Name</p>
@@ -236,30 +245,30 @@
                             </div>
                         </div>
 
-                        <div class="bg-black/20 p-3 rounded-xl border border-white/5">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
                             <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Account Name</p>
                             <p class="font-medium text-white/90 text-sm">MD. MONJURUL HASAN</p>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-black/20 p-3 rounded-xl border border-white/5">
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
                                 <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Branch</p>
                                 <p class="font-medium text-white/90 text-sm truncate">Gulshan Ave</p>
                             </div>
-                            <div class="bg-black/20 p-3 rounded-xl border border-white/5">
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
                                 <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Type</p>
                                 <p class="font-medium text-white/90 text-sm truncate">Gen. Savings</p>
                             </div>
                         </div>
 
                         <!-- AC Number -->
-                        <div class="bg-black/40 p-4 rounded-xl border border-white/10 text-center mt-2">
-                            <p class="text-[10px] text-yellow-400/80 uppercase tracking-widest mb-1">Account Number</p>
+                        <div class="bg-black/20 p-4 rounded-xl border border-white/10 text-center mt-2 shadow-inner">
+                            <p class="text-[10px] text-white/50 uppercase tracking-widest mb-1">Account Number</p>
                             <p class="text-xl font-bold tracking-widest text-white">2304320778001</p>
                         </div>
                     </div>
 
-                    <button onclick="copyText('2304320778001', 'Bank Account Copied!')" class="soft-click mt-5 w-full bg-blue-600/90 hover:bg-blue-500 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2 transition-colors">
+                    <button onclick="copyText('2304320778001', 'Bank Account Copied!')" class="soft-click mt-5 w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2">
                         Copy Account Number
                     </button>
                 </div>
@@ -267,10 +276,10 @@
 
             <!-- TAB 3: JSON Wall -->
             <div id="tab-wall" class="w-full flex flex-col items-center hidden">
-                <div class="w-full bg-white/5 border border-white/10 rounded-2xl p-5 shadow-lg relative overflow-hidden h-[420px] flex flex-col backdrop-blur-md">
+                <div class="w-full inner-glass p-5 shadow-lg relative overflow-hidden h-[420px] flex flex-col">
                     
                     <div class="text-center mb-4 relative z-10 border-b border-white/10 pb-3">
-                        <h3 class="font-medium text-lg text-yellow-400 tracking-wide">Wall of Generosity 🏆</h3>
+                        <h3 class="font-medium text-lg text-white/90 tracking-wide">Wall of Generosity 🏆</h3>
                         <p class="text-[10px] text-white/40 uppercase mt-1">Those who made my Eid special</p>
                     </div>
                     
@@ -287,7 +296,7 @@
 
         <!-- Changing Silly Text -->
         <div class="mt-8 mb-2 w-full text-center h-16 flex flex-col items-center justify-center">
-            <h2 id="silly-text" class="bangla-text text-xl sm:text-2xl transition-all duration-500 opacity-100">
+            <h2 id="silly-text" class="bangla-text text-xl sm:text-2xl transition-all duration-500 opacity-100 font-medium">
                 ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙
             </h2>
         </div>
@@ -302,20 +311,20 @@
     </div>
 
     <script>
-        // --- Dynamic Twinkling Stars Generation ---
+        // --- Dynamic Popping/Shining Stars ---
         function createStars() {
             const container = document.getElementById('stars-container');
-            const starCount = 100; // Number of stars
+            const starCount = 120; // Lots of stars for a rich night sky
 
             for (let i = 0; i < starCount; i++) {
                 let star = document.createElement('div');
                 star.className = 'star';
                 
-                // Randomize position, size, opacity, and animation speed
+                // Randomize position, size, opacity, and popping speed
                 let xy = [Math.random() * 100, Math.random() * 100];
-                let size = Math.random() * 2.5 + 0.5; // 0.5px to 3px
-                let duration = Math.random() * 3 + 2; // 2s to 5s
-                let maxOpacity = Math.random() * 0.5 + 0.3; // 0.3 to 0.8
+                let size = Math.random() * 2 + 1; // 1px to 3px
+                let duration = Math.random() * 3 + 2; // 2s to 5s animation
+                let maxOpacity = Math.random() * 0.6 + 0.4; // 0.4 to 1.0
 
                 star.style.left = xy[0] + '%';
                 star.style.top = xy[1] + '%';
@@ -323,7 +332,6 @@
                 star.style.height = size + 'px';
                 star.style.setProperty('--duration', duration + 's');
                 star.style.setProperty('--max-opacity', maxOpacity);
-                // Random animation delay so they don't all blink at once
                 star.style.animationDelay = (Math.random() * 5) + 's';
 
                 container.appendChild(star);
@@ -337,7 +345,7 @@
             const container = document.getElementById('tab-container');
             
             // Move Background indicator smoothly
-            container.className = `tab-${tab}-active relative flex w-full bg-black/40 rounded-full p-1 mb-8 border border-white/5 shadow-inner`;
+            container.className = `tab-${tab}-active relative flex w-full bg-black/20 rounded-full p-1.5 mb-8 border border-white/10 shadow-inner`;
 
             tabs.forEach((t) => {
                 const btn = document.getElementById(`btn-${t}`);
@@ -387,7 +395,8 @@
         function fireworksShow() {
             var duration = 3 * 1000; // 3 seconds of fireworks
             var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+            // Soft gold, silver, and warm white fireworks
+            var colors = ['#fbbf24', '#fef3c7', '#ffffff', '#fcd34d']; 
 
             function randomInRange(min, max) {
                 return Math.random() * (max - min) + min;
@@ -402,21 +411,20 @@
 
                 var particleCount = 50 * (timeLeft / duration);
                 
-                // Shoot from left and right top corners
-                confetti(Object.assign({}, defaults, { 
+                // Shoot from random places across the top width of the screen
+                confetti({
                     particleCount, 
-                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                    colors: ['#fbbf24', '#ffffff', '#fcd34d'] // Gold & White
-                }));
-                confetti(Object.assign({}, defaults, { 
-                    particleCount, 
-                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                    colors: ['#fbbf24', '#ffffff', '#fcd34d'] // Gold & White
-                }));
+                    startVelocity: 30, 
+                    spread: 360, 
+                    ticks: 60, 
+                    zIndex: 100,
+                    origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 },
+                    colors: colors
+                });
             }, 250);
         }
 
-        // --- JSON Fetching for Wall ---
+        // --- JSON Fetching for Wall with FB Link Protection ---
         async function loadDonors() {
             const container = document.getElementById('donors-list');
             try {
@@ -433,9 +441,58 @@
                 let html = '';
                 data.forEach((donor, index) => {
                     const crown = index === 0 ? '<span class="absolute -top-2 -left-2 text-xl drop-shadow-md">👑</span>' : '';
-                    const pic = donor.profilePicture ? donor.profilePicture : `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff`;
+                    
+                    // Logic: Automatically generate avatar if empty OR if it's a facebook link
+                    let pic = donor.profilePicture;
+                    if (!pic || pic.includes('facebook.com') || pic.includes('fb.com')) {
+                        pic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff&bold=true`;
+                    }
 
                     html += `
-                    <div class="flex items-center gap-3 bg-black/20 p-3 rounded-xl border border-white/5 hover:bg-white/5 transition-colors relative backdrop-blur-sm soft-click">
+                    <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors relative soft-click">
                         ${crown}
-                        <img src="${pic}" class="w-12 h-12 rounded-full object
+                        <img src="${pic}" class="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-white/90 text-sm truncate">${donor.name}</h4>
+                            <p class="text-[10px] text-white/50 italic truncate mt-0.5">"${donor.comment}"</p>
+                        </div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="text-center p-4 border border-dashed border-white/20 rounded-xl mt-4">
+                        <p class="text-white/50 text-xs">Please create salami_data.json in your folder.</p>
+                    </div>`;
+            }
+        }
+
+        // --- Rotating Silly Bangla Text ---
+        const sillyLines = [
+            "ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙",
+            "সালামি ছাড়া ঈদ? এ তো ভাবাই যায় না! 🥺",
+            "বিকাশের মেসেজ টোন শোনার অপেক্ষায় আমার কান... 🔔",
+            "সালামি দিন, সওয়াব নিন! (অফার সীমিত) 🏃‍♂️",
+            "বড়দের দোয়া আর সালামি—দুটোই দরকার! 🤲",
+            "অ্যামাউন্ট ম্যাটার না, ভালোবাসাটাই আসল! 🤫"
+        ];
+        
+        let currentLine = 0;
+        const textElement = document.getElementById('silly-text');
+
+        setInterval(() => {
+            textElement.style.opacity = '0';
+            textElement.style.transform = 'translateY(5px)';
+            
+            setTimeout(() => {
+                currentLine = (currentLine + 1) % sillyLines.length;
+                textElement.innerText = sillyLines[currentLine];
+                
+                textElement.style.opacity = '1';
+                textElement.style.transform = 'translateY(0)';
+            }, 500); 
+        }, 4000); 
+    </script>
+</body>
+</html>
