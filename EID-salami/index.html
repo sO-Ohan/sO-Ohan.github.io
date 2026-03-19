@@ -26,12 +26,14 @@
         body {
             margin: 0;
             font-family: 'Outfit', sans-serif;
-            background-color: #0f172a;
-            /* 👇 Set to exactly match your uploaded file 👇 */
-            background-image: url('image.jpg');
+            /* Fallback dark slate color if the image fails to load */
+            background-color: #0f172a; 
+            /* Looks for ./image.jpg in the exact same folder */
+            background-image: url('./image.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -46,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
             z-index: -1;
         }
 
@@ -60,6 +62,7 @@
             border-radius: 32px;
         }
 
+        /* Tab System for 3 Tabs */
         .glass-tab {
             background: transparent;
             color: #94a3b8;
@@ -75,10 +78,8 @@
 
         .tab-indicator {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 50%;
+            top: 0; bottom: 0; left: 0;
+            width: 33.333%; /* 3 tabs now */
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(8px);
             border-radius: 9999px;
@@ -87,9 +88,10 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .tab-bank-active .tab-indicator {
-            transform: translateX(100%);
-        }
+        /* Tab Transforms */
+        .tab-bkash-active .tab-indicator { transform: translateX(0%); }
+        .tab-bank-active .tab-indicator { transform: translateX(100%); }
+        .tab-donors-active .tab-indicator { transform: translateX(200%); }
 
         /* Bangla Font Styling */
         .bangla-text {
@@ -101,12 +103,10 @@
             line-height: 1.5;
         }
 
-        /* Smooth text transition for rotating texts */
         .text-transition {
             transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
         }
 
-        /* Reveal animations */
         .fade-enter {
             animation: fadeInScale 0.4s ease-out forwards;
         }
@@ -115,6 +115,11 @@
             0% { opacity: 0; transform: scale(0.95) translateY(10px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
+
+        /* Custom Scrollbar for Donors List */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
         /* Toast Notification */
         #toast {
@@ -149,7 +154,14 @@
 
     <div class="bg-overlay"></div>
 
-    <div class="glass-panel w-full max-w-md p-6 sm:p-8 relative z-10 flex flex-col items-center mt-6 mb-6">
+    <!-- The Islamic Greeting -->
+    <div class="relative z-10 w-full max-w-md text-center mt-4 sm:mt-8 mb-2">
+        <h2 class="text-[#fbbf24] font-medium text-sm sm:text-base italic tracking-wider drop-shadow-md px-4 leading-relaxed">
+            "Assalamualaikum warahmatullahi wabarakatuh wamaghfiratuh waridhwanuh maksud"
+        </h2>
+    </div>
+
+    <div class="glass-panel w-full max-w-md p-6 sm:p-8 relative z-10 flex flex-col items-center mb-6">
         
         <!-- Header Profile -->
         <div class="relative mb-4 group">
@@ -162,20 +174,24 @@
         <h1 class="text-2xl font-bold mb-1 tracking-tight text-white/90">MD. MONJURUL HASAN</h1>
         <p class="text-white/50 text-sm mb-6 font-light tracking-wide text-center">Accepting Eid Salami across all dimensions. 💸</p>
 
-        <!-- Modern Toggle Buttons -->
-        <div id="tab-container" class="relative flex w-full bg-black/40 rounded-full p-1.5 mb-6 border border-white/5 shadow-inner">
+        <!-- 3 Modern Toggle Buttons -->
+        <div id="tab-container" class="tab-bkash-active relative flex w-full bg-black/40 rounded-full p-1.5 mb-6 border border-white/5 shadow-inner">
             <div class="tab-indicator"></div>
-            <button onclick="switchTab('bkash')" id="btn-bkash" class="glass-tab active flex-1 py-2.5 text-sm rounded-full flex justify-center items-center gap-2">
+            <button onclick="switchTab('bkash')" id="btn-bkash" class="glass-tab active flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-1 sm:gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                 bKash
             </button>
-            <button onclick="switchTab('bank')" id="btn-bank" class="glass-tab flex-1 py-2.5 text-sm rounded-full flex justify-center items-center gap-2">
+            <button onclick="switchTab('bank')" id="btn-bank" class="glass-tab flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-1 sm:gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                Bank Transfer
+                Bank
+            </button>
+            <button onclick="switchTab('donors')" id="btn-donors" class="glass-tab flex-1 py-2.5 text-xs sm:text-sm rounded-full flex justify-center items-center gap-1 sm:gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Wall
             </button>
         </div>
 
-        <!-- bKash Section -->
+        <!-- TAB 1: bKash Section -->
         <div id="tab-bkash" class="w-full flex flex-col items-center fade-enter">
             <div class="w-full bg-gradient-to-br from-pink-500/10 to-pink-600/5 border border-pink-500/20 rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-500/20 rounded-full blur-2xl"></div>
@@ -196,7 +212,7 @@
             </div>
         </div>
 
-        <!-- Bank Section -->
+        <!-- TAB 2: Bank Section -->
         <div id="tab-bank" class="w-full flex flex-col items-center hidden">
             <div class="w-full bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-2xl p-5 text-left shadow-lg relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
@@ -246,9 +262,29 @@
             </div>
         </div>
 
+        <!-- TAB 3: Donors Wall Section -->
+        <div id="tab-donors" class="w-full flex flex-col items-center hidden">
+            <div class="w-full bg-gradient-to-br from-yellow-500/10 to-amber-600/5 border border-yellow-500/20 rounded-2xl p-5 shadow-lg relative overflow-hidden h-[420px] flex flex-col">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-500/20 rounded-full blur-2xl"></div>
+                
+                <div class="text-center mb-4 relative z-10">
+                    <h3 class="font-bold text-lg text-yellow-400">Wall of Generosity 🏆</h3>
+                    <p class="text-xs text-white/50">Those who made my Eid special!</p>
+                </div>
+                
+                <!-- Donor List Container -->
+                <div id="donors-list" class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-3 relative z-10">
+                    <!-- Loading state before JSON loads -->
+                    <div class="flex justify-center items-center h-full">
+                        <p class="text-white/50 text-sm animate-pulse">Checking for Salami... 👀</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Dynamic Silly Bangla Footer Text -->
-        <div class="mt-8 mb-2 w-full text-center relative z-10 h-20 flex items-center justify-center">
-            <h2 id="silly-text" class="bangla-text text-2xl sm:text-3xl text-transition opacity-100 transform scale-100">
+        <div class="mt-8 mb-2 w-full text-center relative z-10 h-16 flex items-center justify-center">
+            <h2 id="silly-text" class="bangla-text text-xl sm:text-2xl text-transition opacity-100 transform scale-100">
                 ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙
             </h2>
         </div>
@@ -265,113 +301,86 @@
     </div>
 
     <script>
-        // --- Silly Rotating Text Logic ---
-        const sillyLines = [
-            "ঈদের চাঁদ আকাশে, সালামি দিন বিকাশে! 🌙",
-            "সালামি ছাড়া ঈদ? এ তো ভাবাই যায় না! 🥺",
-            "বিকাশের মেসেজ টোন শোনার অপেক্ষায় আমার কান... 🔔",
-            "সালামি দিন, সওয়াব নিন! (অফার সীমিত সময়ের জন্য) 🏃‍♂️",
-            "বড়দের দোয়া আর সালামি—দুটোই আমার খুব দরকার! 🤲",
-            "কি ভাবছেন? সালামি না দিয়ে পালাবেন? আমি কিন্তু দেখছি! 👀",
-            "সালামির এমাউন্ট যত বড়, হাসির সাইজ তত চওড়া! 😁",
-            "আপনার একটু সালামি, আমার ঈদের বড় খুশি! 🥳",
-            "সালামি দিতে কৃপণতা করবেন না, আল্লাহ বরকত দেবেন! 😇",
-            "বিকাশ বা ব্যাংক—যেখানেই দিন, সালামি পেলেই আমি খুশি! 💸"
-        ];
-        
-        let currentLineIndex = 0;
-        const textElement = document.getElementById('silly-text');
-
-        setInterval(() => {
-            textElement.style.opacity = '0';
-            textElement.style.transform = 'scale(0.95)';
-            
-            setTimeout(() => {
-                currentLineIndex = (currentLineIndex + 1) % sillyLines.length;
-                textElement.innerText = sillyLines[currentLineIndex];
+        // --- Fetch and Display JSON Data ---
+        async function loadDonors() {
+            const container = document.getElementById('donors-list');
+            try {
+                // Fetches the JSON file from the same directory
+                const response = await fetch('salami_data.json');
                 
-                textElement.style.opacity = '1';
-                textElement.style.transform = 'scale(1)';
-            }, 500); 
-        }, 4000); 
+                if (!response.ok) {
+                    throw new Error('Data not found');
+                }
+                
+                const data = await response.json();
+                
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-full text-center">
+                            <span class="text-4xl mb-2">🥺</span>
+                            <p class="text-white/60 text-sm">No Salami yet...</p>
+                            <p class="text-yellow-400/80 text-xs mt-1">Be the very first one!</p>
+                        </div>`;
+                    return;
+                }
 
+                // Sort by highest amount first (optional, but nice)
+                data.sort((a, b) => b.amount - a.amount);
+
+                let html = '';
+                data.forEach((donor, index) => {
+                    // Add crown to the top donor
+                    const crown = index === 0 ? '<span class="absolute -top-2 -left-2 text-xl transform -rotate-12">👑</span>' : '';
+                    
+                    // Fallback to initial avatar if no picture is provided
+                    const profilePic = donor.profilePicture ? donor.profilePicture : `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff`;
+
+                    html += `
+                    <div class="flex items-center gap-3 bg-black/30 p-3 rounded-xl border border-white/5 hover:bg-white/5 transition-colors relative">
+                        ${crown}
+                        <img src="${profilePic}" class="w-12 h-12 rounded-full object-cover border-2 border-yellow-500/50" alt="${donor.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff'">
+                        <div class="flex-1 text-left min-w-0">
+                            <h4 class="font-semibold text-white/90 text-sm truncate">${donor.name}</h4>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest">Generous Soul 💖</p>
+                        </div>
+                        <div class="font-mono font-bold text-yellow-400 text-lg">৳${donor.amount}</div>
+                    </div>`;
+                });
+                
+                container.innerHTML = html;
+
+            } catch (error) {
+                // If json doesn't exist yet, show this friendly message
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center h-full text-center p-4 bg-black/20 rounded-xl border border-dashed border-white/20">
+                        <span class="text-2xl mb-2">📁</span>
+                        <p class="text-white/70 text-sm mb-1">Waiting for JSON file!</p>
+                        <p class="text-white/40 text-[10px]">Create <b>salami_data.json</b> in your GitHub repo.</p>
+                    </div>`;
+            }
+        }
+
+        // Load donors immediately when the script runs
+        loadDonors();
 
         // --- Tab Logic ---
         function switchTab(tab) {
-            const btnBkash = document.getElementById('btn-bkash');
-            const btnBank = document.getElementById('btn-bank');
-            const tabBkash = document.getElementById('tab-bkash');
-            const tabBank = document.getElementById('tab-bank');
+            const btns = ['bkash', 'bank', 'donors'];
             const container = document.getElementById('tab-container');
 
-            tabBkash.classList.remove('fade-enter');
-            tabBank.classList.remove('fade-enter');
+            // Reset all
+            btns.forEach(t => {
+                document.getElementById(`btn-${t}`).classList.remove('active');
+                const tabEl = document.getElementById(`tab-${t}`);
+                tabEl.classList.add('hidden');
+                tabEl.classList.remove('fade-enter');
+            });
+
+            // Activate chosen
+            document.getElementById(`btn-${tab}`).classList.add('active');
+            const activeTab = document.getElementById(`tab-${tab}`);
+            activeTab.classList.remove('hidden');
             
-            void tabBkash.offsetWidth;
-            void tabBank.offsetWidth;
-
-            if (tab === 'bkash') {
-                container.classList.remove('tab-bank-active');
-                btnBkash.classList.add('active');
-                btnBank.classList.remove('active');
-                tabBkash.classList.remove('hidden');
-                tabBank.classList.add('hidden');
-                tabBkash.classList.add('fade-enter');
-            } else {
-                container.classList.add('tab-bank-active');
-                btnBank.classList.add('active');
-                btnBkash.classList.remove('active');
-                tabBank.classList.remove('hidden');
-                tabBkash.classList.add('hidden');
-                tabBank.classList.add('fade-enter');
-            }
-        }
-
-        // --- Copy Logic ---
-        function copyText(text, message) {
-            const inputArea = document.getElementById('hidden-copy-area');
-            inputArea.value = text;
-            inputArea.select();
-            document.execCommand('copy');
-            
-            showToast(message);
-            triggerConfetti();
-        }
-
-        // --- Toast Alert Logic ---
-        let toastTimeout;
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            const toastMsg = document.getElementById("toast-msg");
-            
-            toastMsg.innerText = message;
-            toast.classList.add("show");
-            
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { 
-                toast.classList.remove("show"); 
-            }, 3000);
-        }
-
-        // --- Confetti Logic ---
-        function triggerConfetti() {
-            const count = 200;
-            const defaults = { origin: { y: 0.7 }, zIndex: 100 };
-
-            function fire(particleRatio, opts) {
-                confetti(Object.assign({}, defaults, opts, {
-                    particleCount: Math.floor(count * particleRatio)
-                }));
-            }
-
-            fire(0.25, { spread: 26, startVelocity: 55, colors: ['#e2136e', '#fbbf24'] });
-            fire(0.2, { spread: 60, colors: ['#ffffff', '#3b82f6'] });
-            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8, colors: ['#fbbf24', '#e2136e', '#8b5cf6'] });
-            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-            fire(0.1, { spread: 120, startVelocity: 45 });
-        }
-    </script>
-</body>
-</html>
-
-
+            // Force reflow to restart animation
+            void activeTab.offsetWidth;
+            activeTab.classList.add('fade
