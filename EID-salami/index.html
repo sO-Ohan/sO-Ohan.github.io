@@ -424,7 +424,8 @@
             }, 250);
         }
 
-        // --- JSON Fetching for Wall with FB Link Protection ---
+        // --- JSON Fetching for Wall from local /image directory ---
+        // --- JSON Fetching for Wall from local /image directory ---
         async function loadDonors() {
             const container = document.getElementById('donors-list');
             try {
@@ -442,16 +443,25 @@
                 data.forEach((donor, index) => {
                     const crown = index === 0 ? '<span class="absolute -top-2 -left-2 text-xl drop-shadow-md">👑</span>' : '';
                     
-                    // Logic: Automatically generate avatar if empty OR if it's a facebook link
                     let pic = donor.profilePicture;
-                    if (!pic || pic.includes('facebook.com') || pic.includes('fb.com')) {
-                        pic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff&bold=true`;
+                    // Auto-generated fallback avatar
+                    let fallbackPic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff&bold=true`;
+                    let finalSrc = fallbackPic;
+
+                    // If a filename is provided in JSON, point to the image/ folder
+                    if (pic && !pic.includes('facebook.com') && !pic.includes('fb.com')) {
+                        if (pic.startsWith('http')) {
+                            finalSrc = pic; // Use full URL if provided
+                        } else {
+                            finalSrc = `image/${pic}`; // Look in image/ folder
+                        }
                     }
 
                     html += `
                     <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors relative soft-click">
                         ${crown}
-                        <img src="${pic}" class="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md">
+                        <!-- Uses onerror to gracefully load initials if the image file is missing -->
+                        <img src="${finalSrc}" onerror="this.onerror=null; this.src='${fallbackPic}';" class="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md bg-white/10">
                         <div class="flex-1 min-w-0">
                             <h4 class="font-medium text-white/90 text-sm truncate">${donor.name}</h4>
                             <p class="text-[10px] text-white/50 italic truncate mt-0.5">"${donor.comment}"</p>
