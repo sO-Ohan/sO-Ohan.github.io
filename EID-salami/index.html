@@ -195,7 +195,7 @@
                 </div>
             </div>
             
-            <h1 class="text-2xl font-semibold mb-1 tracking-wide text-white">MD. MONJURUL HASAN</h1>
+            <h1 class="text-2xl font-semibold mb-1 tracking-wide text-white text-center">MD. MONJURUL HASAN</h1>
             <p class="text-white/50 text-xs mb-8 font-light tracking-widest uppercase">
                 Accepting Eid Salami
             </p>
@@ -231,46 +231,79 @@
                 </div>
             </div>
 
-            <!-- TAB 2: Bank -->
+            <!-- TAB 2: Bank (UPDATED WITH ALL INFO) -->
             <div id="tab-bank" class="w-full flex flex-col items-center hidden">
-                <div class="w-full inner-glass p-6 text-left shadow-lg relative overflow-hidden">
+                <div class="w-full inner-glass p-5 text-left shadow-lg relative overflow-hidden">
                     
-                    <div class="space-y-4 relative z-10">
-                        <!-- Bank Info -->
-                        <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex items-center gap-3">
-                            <div class="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center border border-white/10">🏦</div>
-                            <div>
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-0.5">Bank Name</p>
+                    <div class="space-y-3 relative z-10">
+                        
+                        <!-- Bank & SWIFT Info -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex flex-col justify-center">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-sm">🏦</span>
+                                    <p class="text-[10px] text-white/40 uppercase tracking-widest">Bank</p>
+                                </div>
                                 <p class="font-medium text-white/90 text-sm">City Bank</p>
+                            </div>
+                            
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex flex-col justify-center relative group soft-click" onclick="copyText('CIBLBDDH', 'SWIFT Code Copied!')">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-sm">🌐</span>
+                                    <p class="text-[10px] text-white/40 uppercase tracking-widest">SWIFT</p>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p class="font-medium text-white/90 text-sm tracking-widest">CIBLBDDH</p>
+                                    <span class="text-white/30 text-xs">📋</span>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Account Info & Address -->
                         <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                            <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Account Name</p>
+                            <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Account Name & Address</p>
                             <p class="font-medium text-white/90 text-sm">MD. MONJURUL HASAN</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Branch</p>
-                                <p class="font-medium text-white/90 text-sm truncate">Gulshan Ave</p>
+                            <div class="flex gap-1.5 mt-1.5 items-start opacity-70">
+                                <span class="text-[10px]">📍</span>
+                                <p class="text-[10px] text-white/80 leading-tight">Bashundhara R/A, Dhaka 1229</p>
                             </div>
-                            <div class="bg-white/5 p-3 rounded-xl border border-white/10">
-                                <p class="text-[10px] text-white/40 uppercase tracking-widest mb-1">Type</p>
-                                <p class="font-medium text-white/90 text-sm truncate">Gen. Savings</p>
+                        </div>
+
+                        <!-- Branch Information -->
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <p class="text-[10px] text-white/40 uppercase tracking-widest">Branch Details</p>
+                                <span class="text-[9px] bg-white/10 px-1.5 py-0.5 rounded text-white/60">AD Branch</span>
+                            </div>
+                            <p class="font-medium text-white/90 text-sm mb-1.5">GULSHAN AVENUE BRANCH</p>
+                            
+                            <div class="space-y-1.5 mt-2">
+                                <div class="flex gap-1.5 items-start">
+                                    <span class="text-[10px] mt-0.5 opacity-60">🏢</span>
+                                    <p class="text-[10px] text-white/60 leading-relaxed">
+                                        Simpletree Attalika, Holding No:134, Plot No:13, Gulshan Avenue, Gulshan-2, Dhaka 1.
+                                    </p>
+                                </div>
+                                <div class="flex gap-1.5 items-center">
+                                    <span class="text-[10px] opacity-60">📞</span>
+                                    <p class="text-[10px] text-white/60">0258813483</p>
+                                </div>
+                                <div class="flex gap-1.5 items-center">
+                                    <span class="text-[10px] opacity-60">✉️</span>
+                                    <p class="text-[10px] text-white/60 truncate">gulshanavenue@thecitybank.com</p>
+                                </div>
                             </div>
                         </div>
 
                         <!-- AC Number -->
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/10 text-center mt-2 shadow-inner">
+                        <div class="bg-black/20 p-4 rounded-xl border border-white/10 text-center mt-2 shadow-inner group relative soft-click cursor-pointer" onclick="copyText('2304320778001', 'Bank Account Copied!')">
                             <p class="text-[10px] text-white/50 uppercase tracking-widest mb-1">Account Number</p>
-                            <p class="text-xl font-bold tracking-widest text-white">2304320778001</p>
+                            <div class="flex items-center justify-center gap-2">
+                                <p class="text-xl font-bold tracking-widest text-white">2304320778001</p>
+                                <span class="text-white/30 text-sm">📋</span>
+                            </div>
                         </div>
                     </div>
-
-                    <button onclick="copyText('2304320778001', 'Bank Account Copied!')" class="soft-click mt-5 w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium py-3.5 px-4 rounded-xl shadow-lg flex justify-center items-center gap-2">
-                        Copy Account Number
-                    </button>
                 </div>
             </div>
 
@@ -392,6 +425,7 @@
         }
 
         // --- Spectacular Fireworks Logic ---
+         // --- Spectacular Fireworks Logic ---
         function fireworksShow() {
             var duration = 3 * 1000; // 3 seconds of fireworks
             var animationEnd = Date.now() + duration;
@@ -424,7 +458,6 @@
             }, 250);
         }
 
-        // --- JSON Fetching for Wall from local /image directory ---
         // --- JSON Fetching for Wall from local /image directory ---
         async function loadDonors() {
             const container = document.getElementById('donors-list');
