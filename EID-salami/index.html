@@ -425,7 +425,7 @@
         }
 
         // --- Spectacular Fireworks Logic ---
-         // --- Spectacular Fireworks Logic ---
+        // --- Spectacular Fireworks Logic ---
         function fireworksShow() {
             var duration = 3 * 1000; // 3 seconds of fireworks
             var animationEnd = Date.now() + duration;
@@ -465,7 +465,12 @@
                 const response = await fetch('salami_data.json');
                 if (!response.ok) throw new Error('Data not found');
                 
-                const data = await response.json();
+                let data = await response.json();
+                
+                // AUTO-FIX: If the JSON is missing the array brackets [ ], automatically fix it by wrapping it
+                if (!Array.isArray(data)) {
+                    data = [data];
+                }
                 
                 if (data.length === 0) {
                     container.innerHTML = `<p class="text-center text-white/40 text-sm mt-10">No Salami received yet...</p>`;
@@ -478,7 +483,7 @@
                     
                     let pic = donor.profilePicture;
                     // Auto-generated fallback avatar
-                    let fallbackPic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name)}&background=random&color=fff&bold=true`;
+                    let fallbackPic = `https://ui-avatars.com/api/?name=${encodeURIComponent(donor.name || 'Anonymous')}&background=random&color=fff&bold=true`;
                     let finalSrc = fallbackPic;
 
                     // If a filename is provided in JSON, point to the image/ folder
@@ -496,17 +501,29 @@
                         <!-- Uses onerror to gracefully load initials if the image file is missing -->
                         <img src="${finalSrc}" onerror="this.onerror=null; this.src='${fallbackPic}';" class="w-12 h-12 rounded-full object-cover border border-white/20 shadow-md bg-white/10">
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-medium text-white/90 text-sm truncate">${donor.name}</h4>
-                            <p class="text-[10px] text-white/50 italic truncate mt-0.5">"${donor.comment}"</p>
+                            <h4 class="font-medium text-white/90 text-sm truncate">${donor.name || 'Anonymous'}</h4>
+                            <p class="text-[10px] text-white/50 italic truncate mt-0.5">"${donor.comment || ''}"</p>
                         </div>
                     </div>`;
                 });
                 container.innerHTML = html;
 
             } catch (error) {
+                console.error("Wall Error:", error);
+                
+                let errorMsg = "Please create salami_data.json in your folder.";
+                
+                // Detect specific errors to help you troubleshoot!
+                if (error instanceof TypeError && error.message.includes('fetch')) {
+                    errorMsg = "Browser security blocked local file. Please run with Live Server extension.";
+                } else if (error instanceof SyntaxError) {
+                    errorMsg = "Invalid JSON format in salami_data.json file.";
+                }
+
                 container.innerHTML = `
-                    <div class="text-center p-4 border border-dashed border-white/20 rounded-xl mt-4">
-                        <p class="text-white/50 text-xs">Please create salami_data.json in your folder.</p>
+                    <div class="text-center p-4 border border-dashed border-red-400/30 bg-red-500/10 rounded-xl mt-4">
+                        <p class="text-red-200/80 text-xs font-medium mb-1">Could not load Wall data</p>
+                        <p class="text-white/40 text-[10px]">${errorMsg}</p>
                     </div>`;
             }
         }
@@ -539,4 +556,5 @@
     </script>
 </body>
 </html>
+
 
