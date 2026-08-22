@@ -1,0 +1,102 @@
+/* workbench.css — the in-slide Arduino IDE */
+
+.wb{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px;min-height:0}
+.wb-left,.wb-right{display:flex;flex-direction:column;gap:12px;min-height:0}
+
+.wb-panel{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden;
+  display:flex;flex-direction:column;min-height:0}
+
+.wb-bar{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--tint)}
+.wb-file{font:500 12.5px var(--f-m);color:var(--ink-2);padding:4px 10px;border-radius:7px;background:var(--surface);border:1px solid var(--line)}
+.wb-bar .sp{flex:1}
+.wb-state{font:500 12px var(--f-m);padding:4px 10px;border-radius:999px;background:var(--tint);color:var(--ink-3)}
+.wb-state.run{background:var(--green-soft);color:#137333}
+.wb-state.err{background:var(--red-soft);color:#a50e0e}
+
+.wb-edit{flex:1;min-height:0;overflow:auto;padding:12px 14px;font-family:var(--f-m);font-size:13.5px;
+  line-height:1.65;white-space:pre-wrap;outline:none;color:#37474f;tab-size:2}
+.wb-edit:focus{background:#fdfdff}
+.wb-edit .tok{border-radius:3px}
+.wb-edit .tok[data-tip]{cursor:help;border-bottom:1px dotted rgba(26,115,232,.45)}
+.wb-edit .tok[data-tip]:hover{background:var(--blue-soft)}
+.wb-edit .errline{background:var(--red-soft);border-radius:3px}
+
+.wb-console{height:104px;min-height:104px;overflow:auto;padding:10px 13px;background:#1c2128;
+  font-family:var(--f-m);font-size:12.5px;line-height:1.65;color:#c9d1d9;border-radius:0 0 15px 15px}
+.wb-console .out{color:#7ee787}
+.wb-console .sys{color:#8b949e}
+.wb-console .warn{color:#e3b341}
+.wb-console .err{color:#ff7b72}
+.wb-console .in{color:#79c0ff}
+.wb-serial{display:flex;gap:8px;padding:9px 11px;border-top:1px solid var(--line);background:var(--tint)}
+.wb-serial input{flex:1;border:1px solid var(--line);border-radius:9px;padding:7px 11px;
+  font-family:var(--f-m);font-size:13px;background:var(--surface);color:var(--ink);outline:none}
+.wb-serial input:focus{border-color:var(--accent)}
+
+.wb-sim{flex:1;min-height:260px;display:grid;place-items:center;padding:6px}
+.wb-sim svg{max-height:100%;max-width:100%}
+
+.wb-goal{border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:10px 13px;background:var(--accent-soft)}
+.wb-goal h4{margin-bottom:5px}
+.wb-goal p{font-size:13.5px;line-height:1.4}
+.wb-goal.done{background:var(--green-soft);border-color:transparent}
+.wb-goal.done h4{color:#137333}
+
+.wb-hint{margin-top:6px;font-size:12.5px;color:var(--ink-3)}
+.wb-hint b{color:var(--ink-2)}
+
+.tip{position:fixed;z-index:70;max-width:290px;background:#202124;color:#fff;padding:10px 13px;
+  border-radius:10px;font:400 13px var(--f-b);line-height:1.45;box-shadow:var(--e3);pointer-events:none;
+  opacity:0;transform:translateY(4px);transition:.14s}
+.tip.on{opacity:1;transform:none}
+.tip b{color:#8ab4f8}
+.tip .sig{font-family:var(--f-m);font-size:12px;color:#8ab4f8;display:block;margin-bottom:4px}
+
+/* the little run bar buttons */
+.wb-run{display:flex;gap:8px}
+
+.wb-wiring{border:1px solid rgba(0,0,0,.05);border-radius:14px;padding:9px 12px;background:var(--surface);box-shadow:0 1px 2px rgba(23,29,41,.05)}
+.wire-rows{display:flex;flex-direction:column;gap:5px}
+.wire-row{display:grid;grid-template-columns:9px 168px 1fr;gap:8px;align-items:baseline;font-size:12px}
+.wire-dot{width:10px;height:10px;border-radius:50%;margin-top:4px}
+.wire-path{font-family:var(--f-m);font-size:12px;color:var(--ink-2)}
+.wire-path b{color:var(--ink);font-weight:500}
+.wire-path i{color:var(--ink-3);font-style:normal;margin:0 5px}
+.wire-why{color:var(--ink-3);font-size:12px;line-height:1.35}
+
+/* ---------- IDE chrome ---------- */
+.ide{border:1px solid rgba(0,0,0,.06);border-radius:14px;background:var(--surface);overflow:hidden;
+  display:flex;flex-direction:column;min-height:0;box-shadow:0 1px 2px rgba(23,29,41,.05),0 4px 14px rgba(23,29,41,.05)}
+.ide-title{display:flex;align-items:center;gap:10px;padding:7px 12px;background:#eef1f5;border-bottom:1px solid var(--line)}
+.ide-title .dots{display:flex;gap:5px}
+.ide-title .dots i{width:10px;height:10px;border-radius:50%;background:#ff5f57}
+.ide-title .dots i:nth-child(2){background:#febc2e}
+.ide-title .dots i:nth-child(3){background:#28c840}
+.ide-name{font:600 12px var(--f-b);color:var(--ink-2)}
+.ide-board{font:500 11.5px var(--f-m);color:var(--ink-3);background:#fff;border:1px solid var(--line);
+  border-radius:6px;padding:3px 9px}
+.ide .sp{flex:1}
+.ide-tools{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--line);background:#f7f9fb}
+.itool{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;
+  background:var(--accent);color:#fff;font:600 12px var(--f-b);box-shadow:none}
+.itool span{font-size:11.5px}
+.itool:hover{filter:brightness(1.06)}
+.itool.ghost{background:transparent;color:var(--ink-3);border:1px solid var(--line)}
+.itool.ghost:hover{background:var(--tint);color:var(--ink-2)}
+.itool.stop{background:#5f6368}
+.ide-tabs{display:flex;align-items:center;gap:2px;padding:0 8px;background:#eef1f5;border-bottom:1px solid var(--line)}
+.ide-tabs.con{padding:0 8px 0 8px}
+.tab-file{font:500 11.5px var(--f-m);color:var(--ink-3);padding:7px 13px;border-bottom:2px solid transparent}
+.tab-file.on{color:var(--accent);border-bottom-color:var(--accent);background:#fff}
+.ide-edit{flex:1;min-height:0;display:flex;overflow:auto;background:#fff}
+.gutter{flex:none;padding:12px 8px 12px 12px;text-align:right;background:#f7f9fb;border-right:1px solid var(--line);
+  font-family:var(--f-m);font-size:13px;line-height:1.62;color:#b0b7c2;user-select:none}
+.gutter span{display:block}
+.wb-edit{flex:1;min-width:0;overflow:visible;padding:12px 14px;font-family:var(--f-m);font-size:13px;line-height:1.62;
+  white-space:pre;outline:none;color:#37474f;tab-size:2}
+.ide-status{display:flex;align-items:center;padding:5px 12px;background:#eef1f5;border-top:1px solid var(--line);
+  font-size:11px;color:var(--ink-3)}
+.ide-status .mono{font-size:11px}
+.wb-console{background:#11151b;border-radius:0}
+.wb-serial{border-top:1px solid var(--line)}
+.baud{font-size:11px;color:var(--ink-3);padding-right:6px}

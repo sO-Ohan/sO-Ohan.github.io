@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Basics of Robotics · BRACU RoboU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="workbench.css">
+</head>
+<body>
+
+<div id="bg"></div>
+<div id="bar" style="width:0"></div>
+<div id="stage">
+
+<!-- ============ 1 · COVER ============ -->
+<section class="slide cover" data-title="Welcome" data-ch="Start" data-accent="blue">
+  <div class="cover-top row center" style="gap:14px">
+    <img src="assets/logo-robu.png" alt="BRACU RoboU" style="height:44px">
+    <div style="width:1px;height:30px;background:var(--line)"></div>
+    <div class="tiny" style="line-height:1.45">BRAC UNIVERSITY ROBOTICS CLUB<br><b style="color:var(--ink-2)">Workshop Series</b></div>
+  </div>
+  <div class="cover-mid">
+    <div class="cover-cols">
+      <div class="cover-text">
+    <h1>Basics of<br>Robotics</h1>
+    <p class="lead" style="max-width:560px">You will write code that moves real hardware. Today you do it in the browser, so nothing needs installing before you start.</p>
+    <div class="row wrap" style="gap:9px;margin-top:6px">
+      <span class="chip b">Write code</span>
+      <span class="chip y">Wire a circuit</span>
+      <span class="chip g">Read a sensor</span>
+      <span class="chip r">Move a motor</span>
+    </div>
+      </div>
+      <div class="cover-hero" id="coverHero"></div>
+    </div>
+  </div>
+  <div class="row between center">
+    <div class="tiny">Session 01 · No experience needed</div>
+    <div class="tiny mono">so-ohan.github.io</div>
+  </div>
+</section>
+
+<!-- ============ 2 · INSTRUCTOR ============ -->
+<section class="slide" data-title="Instructor" data-ch="Start" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>Your instructor</div>
+  <div class="body">
+    <div class="col" style="width:410px;gap:11px">
+      <img src="assets/instructor-robot.jpg" alt="" class="portrait">
+      <img src="assets/instructor-lecture.jpg" alt="" class="portrait strip">
+    </div>
+    <div class="col grow" style="justify-content:center;gap:18px">
+      <h2>MD. Monjurul Hasan<br>Bhuiyan</h2>
+      <div class="col" style="gap:12px">
+        <div class="card tight row center" style="gap:16px">
+          <img src="assets/logo-mongoltori.png" alt="" style="height:42px;width:auto">
+          <div><h3>BRACU Mongol Tori</h3><p class="sub">Core member, autonomous systems and drones. Mars rover team.</p></div>
+        </div>
+        <div class="card tight row center" style="gap:16px">
+          <span class="logo-pad wide"><img src="assets/logo-tivoniq.png" alt="" style="height:20px"></span>
+          <div><h3>Tivoniq, co-founder</h3><p class="sub">Agri-tech and fintech. Sensors in the field, data on a server.</p></div>
+        </div>
+        <div class="card tight row center" style="gap:16px">
+          <img src="assets/logo-robu.png" alt="" style="height:40px;width:auto">
+          <div><h3>Instructor for this workshop</h3><p class="sub">Ask questions while I talk. That is the fastest way to learn this.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="card raised col center" style="width:230px;align-self:center;gap:12px">
+      <div class="qr"><img src="assets/qr.svg" alt=""></div>
+      <div class="mono" style="font-size:13.5px;color:var(--blue)">so-ohan.github.io</div>
+      <p class="sub" style="text-align:center">Slides, code and contact live here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · WARM UP ============ -->
+<section class="slide" data-title="Warm-up" data-ch="Start" data-accent="green">
+  <div class="chapter"><span class="cdot"></span>Warm-up</div>
+  <h2>Two minutes, then we start building</h2>
+  <div class="body">
+    <div class="card grow col" style="gap:14px">
+      <div class="cap">Speed round, one sentence each</div>
+      <ul class="list">
+        <li><b>Your name</b></li>
+        <li><b>Department and semester</b></li>
+        <li><b>Why you joined RoboU</b></li>
+        <li><b>What you want to walk out able to build</b></li>
+      </ul>
+      <div class="note b">Keep it to one breath. Twenty people, two minutes.</div>
+      <div class="fill"></div>
+      <div class="cap" style="margin:0">Hands up, I count</div>
+      <div id="handPoll"></div>
+    </div>
+    <div class="card raised col center" style="width:400px;gap:11px;overflow:hidden">
+      <div class="cap" style="align-self:flex-start;margin:0">Scan and answer five questions</div>
+      <div class="qr" style="width:164px;height:164px"><img src="assets/qr-vote.svg" alt=""></div>
+      <p class="sub" style="text-align:center">Answers appear on the results screen as they come in. Two questions have a right answer, and most people get them wrong.</p>
+      <button class="btn tonal" id="openVote">Open live results</button>
+      <div class="tiny mono" id="voteUrl"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 · ROADMAP ============ -->
+<section class="slide" data-title="Today" data-ch="Start" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The plan</div>
+  <h2>Where this goes</h2>
+  <div class="body"><div class="grow" id="roadmap"></div></div>
+</section>
+
+<!-- ============ 5 · ROBOT ANATOMY ============ -->
+<section class="slide" data-title="What a robot is" data-ch="What a robot is" data-accent="purple">
+  <div class="chapter"><span class="cdot"></span>What a robot is made of</div>
+  <h2>Five parts. Every robot has them.</h2>
+  <div class="body">
+    <div class="card grow" id="anatomy"></div>
+    <div class="col" style="width:340px">
+      <div class="card grow" id="anatomyInfo"></div>
+      <div class="note y">A washing machine has all five. So does a Mars rover. The difference is scale, not idea.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 · SENSE ============ -->
+<section class="slide" data-title="Sensing" data-ch="What a robot is" data-accent="purple">
+  <div class="chapter"><span class="cdot"></span>Part one, sense</div>
+  <h2>A sensor turns the world into a number</h2>
+  <div class="body">
+    <div class="card grow" id="sensorBench"></div>
+    <div class="col" style="width:360px">
+      <div class="card grow" id="sensorInfo"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7 · ACT ============ -->
+<section class="slide" data-title="Acting" data-ch="What a robot is" data-accent="purple">
+  <div class="chapter"><span class="cdot"></span>Part two, act</div>
+  <h2>An actuator turns a number back into movement</h2>
+  <div class="body">
+    <div class="card grow" id="actBench"></div>
+    <div class="col" style="width:340px">
+      <div class="card grow" id="actInfo"></div>
+      <div class="note b">We come back to motors properly later. For now, notice that the code side of all four is the same: write a number to a pin.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8 · THE LOOP ============ -->
+<section class="slide" data-title="The loop" data-ch="What a robot is" data-accent="purple">
+  <div class="chapter"><span class="cdot"></span>Part three, think</div>
+  <h2>The brain runs the same loop forever</h2>
+  <div class="body">
+    <div class="card grow" id="loopVis"></div>
+    <div class="col" style="width:400px">
+      <div class="card">
+        <div class="cap">Line following, in words</div>
+        <div id="loopSteps"></div>
+      </div>
+      <div class="card grow">
+        <div class="cap">The same thing, in code</div>
+        <pre class="code" id="loopCode" style="font-size:12.5px"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9 · MCU vs CPU vs SBC ============ -->
+<section class="slide" data-title="What an MCU is" data-ch="The brain" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The brain</div>
+  <h2>Three kinds of computer, three jobs</h2>
+  <div class="body" id="threeWays"></div>
+</section>
+
+<!-- ============ 10 · INSIDE THE CHIP ============ -->
+<section class="slide" data-title="Inside the chip" data-ch="The brain" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The brain</div>
+  <h2>What is actually inside that black square</h2>
+  <div class="body">
+    <div class="card grow" id="chipMap"></div>
+    <div class="col" style="width:360px">
+      <div class="card grow" id="chipInfo"></div>
+      <div class="note b">All of this sits on one piece of silicon about 4 mm across, and costs around two dollars.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 · SCALE ============ -->
+<section class="slide" data-title="16 MHz, 32 KB" data-ch="The brain" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The brain</div>
+  <h2>What 16 MHz and 32 KB really mean</h2>
+  <div class="body" id="scaleSlide"></div>
+</section>
+
+<!-- ============ 12 · MCU FAMILY ============ -->
+<section class="slide" data-title="MCU family" data-ch="The brain" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The brain</div>
+  <h2>The boards you will meet</h2>
+  <div class="body">
+    <div class="col grow" style="gap:14px">
+      <div class="tabs" id="mcuTabs"></div>
+      <div class="card grow" id="mcuCard"></div>
+    </div>
+    <div class="col" style="width:420px">
+      <div class="card grow"><div class="cap">Side by side</div><div id="mcuCompare"></div></div>
+      <div class="note y">Industry mostly uses ESP32 and STM32 now. We start on the UNO because it forgives mistakes and every idea transfers.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 · WHY ARDUINO ============ -->
+<section class="slide" data-title="Why Arduino" data-ch="The brain" data-accent="blue">
+  <div class="chapter"><span class="cdot"></span>The brain</div>
+  <h2>Arduino is not a chip. It is the easy road to one.</h2>
+  <div class="body" id="whyArduino"></div>
+</section>
+
+<!-- ============ 14 · BOARD ANATOMY ============ -->
+<section class="slide" data-title="The UNO board" data-ch="The board" data-accent="teal">
+  <div class="chapter"><span class="cdot"></span>The board</div>
+  <h2>Every part of the board, and why it is there</h2>
+  <div class="body">
+    <div class="card grow" id="boardMap"></div>
+    <div class="col" style="width:350px">
+      <div class="card grow" id="boardInfo"></div>
+      <div id="boardList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 15 · PIN MAP ============ -->
+<section class="slide" data-title="Pin map" data-ch="The board" data-accent="teal">
+  <div class="chapter"><span class="cdot"></span>The board</div>
+  <h2>What each pin can do</h2>
+  <div class="body">
+    <div class="card grow" id="pinMap"></div>
+    <div class="col" style="width:360px">
+      <div class="card"><div class="cap">Pin groups</div><div id="pinList"></div></div>
+      <div class="card grow" id="pinInfo"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 16 · POWER ============ -->
+<section class="slide" data-title="Power" data-ch="The board" data-accent="teal" data-opt="1">
+  <div class="chapter"><span class="cdot"></span>The board</div>
+  <h2>Where the power comes from</h2>
+  <div class="body" id="powerSlide"></div>
+</section>
+
+<!-- ============ 17 · WORKBENCH TOUR ============ -->
+<section class="slide" data-title="The workbench" data-ch="Writing code" data-accent="red">
+  <div class="chapter"><span class="cdot"></span>Writing code</div>
+  <h2>Your Arduino IDE, without the install</h2>
+  <div class="body" id="wbTour"></div>
+</section>
+
+<!-- ============ 18-24 · WORKBENCH EXERCISES ============ -->
+<section class="slide wb-slide" data-title="Blink" data-ch="Writing code" data-accent="red" data-wb="blink"></section>
+<section class="slide wb-slide" data-title="Many LEDs" data-ch="Writing code" data-accent="red" data-wb="leds"></section>
+<section class="slide wb-slide" data-title="Button" data-ch="Writing code" data-accent="red" data-wb="button"></section>
+<section class="slide wb-slide" data-title="Serial" data-ch="Writing code" data-accent="red" data-wb="serial"></section>
+<section class="slide wb-slide" data-title="Knob" data-ch="Writing code" data-accent="red" data-wb="pot"></section>
+<section class="slide wb-slide" data-title="Brightness" data-ch="Writing code" data-accent="red" data-wb="pwm"></section>
+<section class="slide wb-slide" data-title="Servo" data-ch="Writing code" data-accent="red" data-wb="servo"></section>
+
+<!-- ============ 25 · DIGITAL VS ANALOG ============ -->
+<section class="slide" data-title="Digital and analog" data-ch="Signals" data-accent="yellow">
+  <div class="chapter"><span class="cdot"></span>Signals</div>
+  <h2>Two ways a wire can carry meaning</h2>
+  <div class="body">
+    <div class="card grow col" id="sigCard">
+      <div class="row between center"><div class="cap" style="margin:0">Live signal on a wire</div><div class="seg" id="sigSeg"></div></div>
+      <canvas id="sigCanvas" height="230"></canvas>
+      <div class="field"><span class="lbl">source</span><input type="range" id="sigLevel" min="0" max="100" value="62"><span class="val" id="sigOut">3.1 V</span></div>
+      <div id="sigReadout"></div>
+    </div>
+    <div class="col" style="width:380px" id="sigInfo"></div>
+  </div>
+</section>
+
+<!-- ============ 26 · LOGIC LEVELS ============ -->
+<section class="slide" data-title="Logic levels" data-ch="Signals" data-accent="yellow">
+  <div class="chapter"><span class="cdot"></span>Signals</div>
+  <h2>How much voltage counts as a one</h2>
+  <div class="body">
+    <div class="card grow col">
+      <div class="cap">Drag the voltage. Watch what the chip decides.</div>
+      <div id="logicVis"></div>
+      <div class="field"><span class="lbl">input</span><input type="range" id="lvVal" min="0" max="50" value="42"><span class="val" id="lvOut">4.2 V</span></div>
+      <div id="lvVerdict"></div>
+    </div>
+    <div class="col" style="width:400px" id="lvInfo"></div>
+  </div>
+</section>
+
+<!-- ============ 27 · PWM ============ -->
+<section class="slide" data-title="PWM" data-ch="Signals" data-accent="yellow">
+  <div class="chapter"><span class="cdot"></span>Signals</div>
+  <h2>How a pin that only knows 0 and 5 dims an LED</h2>
+  <div class="body">
+    <div class="col grow" style="gap:14px">
+      <div class="card grow">
+        <div class="cap">One pin, switching 490 times a second</div>
+        <canvas id="pwmCanvas" height="160"></canvas>
+        <div class="field" style="margin-top:12px"><span class="lbl">analogWrite</span><input type="range" id="pwmVal" min="0" max="255" value="128"><span class="val" id="pwmOut">128</span></div>
+        <div class="row between" style="margin-top:8px" id="pwmStats"></div>
+      </div>
+      <div class="note b">The pin is never at 2.5 V. It is at 5 V half the time and 0 V the other half, and everything downstream averages it out.</div>
+    </div>
+    <div class="col" style="width:420px" id="pwmDemos"></div>
+  </div>
+</section>
+
+<!-- ============ 28 · OTHER SIGNALS ============ -->
+<section class="slide" data-title="Other signals" data-ch="Signals" data-accent="yellow" data-opt="1">
+  <div class="chapter"><span class="cdot"></span>Signals</div>
+  <h2>Three more signal shapes you will meet</h2>
+  <div class="body" id="otherSignals"></div>
+</section>
+
+<!-- ============ 29 · WHY A DRIVER ============ -->
+<section class="slide" data-title="Why a driver" data-ch="Motors" data-accent="red">
+  <div class="chapter"><span class="cdot"></span>Motors</div>
+  <h2>Why the motor does not go straight on the pin</h2>
+  <div class="body" id="whyDriver"></div>
+</section>
+
+<!-- ============ 30 · H-BRIDGE ============ -->
+<section class="slide" data-title="H-bridge" data-ch="Motors" data-accent="red">
+  <div class="chapter"><span class="cdot"></span>Motors</div>
+  <h2>Four switches, and the motor can go both ways</h2>
+  <div class="body">
+    <div class="card grow col">
+      <div class="row between center"><div class="cap" style="margin:0">Click the switches yourself</div><div id="hbBtns" class="row" style="gap:8px"></div></div>
+      <div id="hbridge" class="fill"></div>
+    </div>
+    <div class="col" style="width:380px" id="hbInfo"></div>
+  </div>
+</section>
+
+<!-- ============ 31 · MOTOR TYPES ============ -->
+<section class="slide" data-title="Motor types" data-ch="Motors" data-accent="red">
+  <div class="chapter"><span class="cdot"></span>Motors</div>
+  <h2>Four motors, four jobs</h2>
+  <div class="body">
+    <div class="col grow" style="gap:14px">
+      <div class="tabs" id="motorTabs"></div>
+      <div class="card grow" id="motorCard"></div>
+    </div>
+    <div class="card" style="width:360px" id="motorVis"></div>
+  </div>
+</section>
+
+<!-- ============ 32 · WHY BUSES ============ -->
+<section class="slide" data-title="Why buses" data-ch="Talking" data-accent="teal">
+  <div class="chapter"><span class="cdot"></span>Chips talking to chips</div>
+  <h2>You run out of pins fast</h2>
+  <div class="body" id="whyBus"></div>
+</section>
+
+<!-- ============ 33 · UART / I2C / SPI ... ============ -->
+<section class="slide" data-title="The buses" data-ch="Talking" data-accent="teal">
+  <div class="chapter"><span class="cdot"></span>Chips talking to chips</div>
+  <h2>Send a byte, watch it travel</h2>
+  <div class="body">
+    <div class="col grow" style="gap:12px">
+      <div class="tabs" id="busTabs"></div>
+      <div class="card grow col" style="gap:10px">
+        <div id="busVis" class="fill"></div>
+        <div class="row center" style="gap:10px">
+          <button class="btn sm" id="busSend">Send a byte</button>
+          <span class="mono tiny" id="busState"></span>
+        </div>
+      </div>
+      <div class="card tight"><div class="cap" style="margin-bottom:8px">What the wires are doing</div><canvas id="busScope" height="110"></canvas></div>
+    </div>
+    <div class="col" style="width:400px" id="busInfo"></div>
+  </div>
+</section>
+
+<!-- ============ 34 · CHOOSING ============ -->
+<section class="slide" data-title="Which bus" data-ch="Talking" data-accent="teal">
+  <div class="chapter"><span class="cdot"></span>Chips talking to chips</div>
+  <h2>Which one do you actually pick</h2>
+  <div class="body" id="busChoose"></div>
+</section>
+
+<!-- ============ 35 · WRAP ============ -->
+<section class="slide" data-title="Wrap-up" data-ch="End" data-accent="green">
+  <div class="chapter"><span class="cdot"></span>That is the session</div>
+  <h2>What you can do now that you could not this morning</h2>
+  <div class="body">
+    <div class="card grow" id="recap"></div>
+    <div class="col" style="width:430px">
+      <div class="card">
+        <div class="cap">Before the next class</div>
+        <ul class="list">
+          <li>Blink an LED in a pattern you invent</li>
+          <li>Read the knob and print it to Serial</li>
+          <li>Make the button start a servo sweep</li>
+        </ul>
+      </div>
+      <div class="card raised row center" style="gap:18px">
+        <div class="qr"><img src="assets/qr.svg" alt=""></div>
+        <div class="col" style="gap:6px">
+          <h3>Everything is here</h3>
+          <div class="mono" style="color:var(--blue);font-size:15px">so-ohan.github.io</div>
+          <p class="sub">Message me when you get stuck. Getting stuck alone at 2am is how people quit robotics.</p>
+        </div>
+      </div>
+      <div class="row center" style="gap:12px">
+        <img src="assets/logo-robu.png" style="height:34px" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /stage -->
+
+<div id="hud">
+  <span class="sn"><b id="cur">1</b>/<span id="tot">35</span></span>
+  <span class="tt" id="hudTitle"></span>
+  <span id="chDots"></span>
+  <span class="clock" id="clock" title="Click to start the session clock">00:00</span>
+  <div class="nav">
+    <kbd>&larr;</kbd><kbd>&rarr;</kbd> move · <kbd>O</kbd> all slides · <kbd>F</kbd> full screen
+    <button class="btn ghost sm" id="prevBtn">Back</button>
+    <button class="btn sm" id="nextBtn">Next</button>
+  </div>
+</div>
+
+<div id="overview">
+  <h2>All slides</h2>
+  <p class="sub">Click one to jump. Press O or Escape to close.</p>
+  <div id="ovGrid"></div>
+</div>
+
+<script src="uno.js"></script>
+<script src="sim.js"></script>
+<script src="workbench.js"></script>
+<script src="modules.js"></script>
+<script src="deck.js"></script>
+</body>
+</html>
