@@ -1,4 +1,4 @@
-/* Basics of Robotics — BRACU RoboU
+/* Basics of Robotics — BRACU Robu
    White canvas, flat colour, generous space. Built for a projector. */
 
 :root{
@@ -204,6 +204,7 @@ pre.code,.codebox{font-family:var(--f-m);font-size:14px;line-height:1.7;backgrou
 /* corner brand */
 .brand{position:absolute;top:26px;right:72px;display:flex;align-items:center;gap:10px;z-index:4;pointer-events:none}
 .brand img{height:30px;width:auto}
+.brand img.rpm{height:28px;border-radius:6px}
 .brand .bt{font:600 12px var(--f-d);color:var(--ink-2);line-height:1.2}
 .brand .bt span{display:block;font-weight:400;font-size:10.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
 

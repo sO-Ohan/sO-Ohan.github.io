@@ -1,4 +1,4 @@
-# Basics of Robotics — BRACU RoboU
+# Basics of Robotics — BRACU Robu
 35 slides, white theme, built for a projector. Everything runs offline in Chrome.
 
 ## Run the deck

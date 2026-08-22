@@ -169,7 +169,8 @@ const Deck = (function(){
     slides.forEach((s,i)=>{
       if(!s.classList.contains('cover')){
         const b = el('div','brand', `<img src="assets/logo-robu.png" alt="">
-          <div class="bt">BRACU RoboU<span>Basics of robotics</span></div>`);
+          <img src="assets/logo-rpm.png" class="rpm" alt="">
+          <div class="bt">BRACU Robu<span>Basics of robotics</span></div>`);
         s.appendChild(b);
       }
       if(s.dataset.opt) s.insertBefore(el('div','optional','Optional'), s.firstChild);
